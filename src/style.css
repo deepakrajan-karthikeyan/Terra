@@ -934,6 +934,165 @@ body {
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
+/* ==========================================================================
+   HOME INTERACTIVE TACTICAL MINI-MAP & WEATHER HAZARD RIBBON
+   ========================================================================== */
+.home-map-container {
+  position: relative;
+  width: 100%;
+  height: 205px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-hud);
+  background: #090d16;
+  margin-bottom: 12px;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.7), 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.home-mini-map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.home-map-overlay-top {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.map-live-tag {
+  background: rgba(10, 15, 26, 0.88);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-family: var(--font-hud);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #a7f3d0;
+  letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(8px);
+  pointer-events: auto;
+}
+
+.home-map-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: auto;
+}
+
+.btn-map-hud-mini {
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid var(--border-hud);
+  color: #bae6fd;
+  font-family: var(--font-hud);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-map-hud-mini:hover {
+  background: rgba(6, 182, 212, 0.25);
+  border-color: var(--color-cyan);
+  color: #fff;
+  box-shadow: 0 0 10px var(--color-cyan-glow);
+}
+
+.home-map-overlay-bottom {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.geo-readout {
+  background: rgba(10, 15, 26, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 3px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  backdrop-filter: blur(8px);
+  pointer-events: auto;
+  max-width: 100%;
+}
+
+.geo-icon {
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.geo-text {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #e2e8f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Live Open-Meteo Environmental Weather Hazard Ribbon */
+.env-weather-ribbon {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  background: rgba(10, 15, 26, 0.65);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 8px 6px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.ew-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ew-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.ew-val {
+  font-family: var(--font-hud);
+  font-weight: 700;
+  font-size: 0.88rem;
+  line-height: 1.1;
+}
+
 /* Recent Missions List */
 .section-container {
   display: flex;
@@ -1097,34 +1256,42 @@ body {
 /* Floating Top Map HUD Controls */
 .map-top-hud {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 12px;
+  top: 10px;
+  left: 10px;
+  right: 10px;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
   z-index: 30;
   pointer-events: none;
 }
 
+.map-hud-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 6px;
+}
+
 .map-hud-group {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   pointer-events: auto;
 }
 
 .map-hud-btn {
-  background: rgba(15, 23, 42, 0.88);
+  background: rgba(15, 23, 42, 0.9);
   border: 1px solid var(--border-hud);
   color: var(--color-cyan);
-  padding: 7px 12px;
+  padding: 6px 10px;
   border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-family: var(--font-hud);
   font-weight: 700;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   letter-spacing: 0.5px;
   backdrop-filter: blur(12px);
   cursor: pointer;
@@ -1137,9 +1304,150 @@ body {
   box-shadow: 0 0 12px var(--color-cyan-glow);
 }
 
+.btn-gps-active {
+  border-color: rgba(16, 185, 129, 0.45);
+  color: #a7f3d0;
+}
+
+.btn-gps-active:hover {
+  background: rgba(16, 185, 129, 0.25);
+  box-shadow: 0 0 12px var(--color-emerald-glow);
+}
+
+/* Tactical Search Input Bar */
+.map-search-bar-wrap {
+  position: relative;
+  width: 100%;
+  pointer-events: auto;
+}
+
+.map-search-box {
+  display: flex;
+  align-items: center;
+  background: rgba(10, 15, 26, 0.92);
+  border: 1px solid var(--border-hud);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  gap: 6px;
+}
+
+.search-lens-icon {
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+.map-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  min-width: 0;
+}
+
+.map-search-input::placeholder {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+.btn-search-clear {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.btn-search-clear.hidden {
+  display: none !important;
+}
+
+.btn-search-go {
+  background: rgba(6, 182, 212, 0.2);
+  border: 1px solid var(--color-cyan);
+  color: #bae6fd;
+  font-family: var(--font-hud);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-search-go:hover {
+  background: var(--color-cyan);
+  color: #041019;
+}
+
+/* Search Results Autocomplete Dropdown */
+.map-search-results {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: rgba(10, 15, 26, 0.97);
+  border: 1px solid var(--border-hud);
+  border-radius: var(--radius-sm);
+  max-height: 180px;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(16px);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-search-results.hidden {
+  display: none !important;
+}
+
+.search-result-item {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: background var(--transition-fast);
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background: rgba(6, 182, 212, 0.18);
+}
+
+.s-item-title {
+  font-family: var(--font-hud);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.s-item-sub {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .map-layers-panel {
   position: absolute;
-  top: 48px;
+  top: 44px;
   left: 70px;
   background: rgba(10, 15, 26, 0.95);
   border: 1px solid var(--border-hud);

@@ -22,8 +22,8 @@
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
-  <script type="module" crossorigin src="./assets/index-B2Q1EKdQ.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Cg1VIEu0.css">
+  <script type="module" crossorigin src="./assets/index-BW3qa-ZY.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-B9znA1Gf.css">
 </head>
 <body class="theme-midnight">
   <!-- Desktop App Frame Container (Enables realistic mobile phone viewport testing on desktop or fullscreen on mobile) -->
@@ -173,12 +173,65 @@
             </div>
           </div>
 
-          <!-- Active Incident Overview Card -->
+          <!-- Active Tactical Mission & Live Map View Card -->
           <div class="tactical-card incident-card">
             <div class="card-header-bar">
-              <span class="card-eyebrow">CURRENT OPERATIONAL DISPATCH</span>
-              <span class="badge badge-amber">ZONE 04</span>
+              <div class="d-flex align-items-center gap-2">
+                <span class="live-dot pulse-emerald"></span>
+                <span class="card-eyebrow">LIVE OPERATIONAL MAP DISPATCH</span>
+              </div>
+              <span class="badge badge-amber" id="incident-zone-badge">ZONE 04</span>
             </div>
+
+            <!-- Embedded Interactive Tactical Mini-Map View -->
+            <div class="home-map-container">
+              <div id="home-mini-map" class="home-mini-map"></div>
+              
+              <!-- Floating Top HUD Tags & Quick Map Actions -->
+              <div class="home-map-overlay-top">
+                <div class="map-live-tag">
+                  <span class="live-dot pulse-emerald"></span>
+                  <span id="home-map-radar-status">LIVE RADAR STREAM</span>
+                </div>
+                <div class="home-map-quick-actions">
+                  <button id="btn-home-map-tile" class="btn-map-hud-mini" title="Toggle Satellite / Dark Mode">
+                    <span>🛰️ SATELLITE</span>
+                  </button>
+                  <button id="btn-home-map-recenter" class="btn-map-hud-mini" title="Center Rover Dexter">
+                    <span>🤖 RECENTER</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Floating Bottom Location Readout -->
+              <div class="home-map-overlay-bottom">
+                <div class="geo-readout">
+                  <span class="geo-icon">📍</span>
+                  <span id="home-geo-location" class="geo-text">Karur Ridge (10.9601° N, 78.0766° E)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Environmental Weather & Terrain Hazard Ribbon (Open-Meteo API) -->
+            <div class="env-weather-ribbon" id="env-weather-ribbon">
+              <div class="ew-item">
+                <span class="ew-label">Ambient Temp</span>
+                <span class="ew-val text-white" id="api-weather-temp">--°C</span>
+              </div>
+              <div class="ew-item">
+                <span class="ew-label">Humidity</span>
+                <span class="ew-val text-cyan" id="api-weather-humidity">--%</span>
+              </div>
+              <div class="ew-item">
+                <span class="ew-label">Wind Speed</span>
+                <span class="ew-val text-white" id="api-weather-wind">-- km/h</span>
+              </div>
+              <div class="ew-item">
+                <span class="ew-label">Terrain Risk</span>
+                <span class="ew-val text-amber" id="api-weather-risk">HIGH</span>
+              </div>
+            </div>
+
             <div class="incident-body">
               <div class="incident-title">Karur Sector — Subterranean Slope Failure</div>
               <p class="incident-desc">
@@ -190,8 +243,9 @@
                 <span class="chip chip-warning">☣️ Gas 74 ppm</span>
               </div>
             </div>
+
             <button id="btn-goto-live-mission" class="btn-tactical btn-outline-cyan">
-              <span>OPEN LIVE MAP & MISSIONS</span>
+              <span>EXPAND FULL LIVE TACTICAL MAP</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
           </div>
@@ -237,15 +291,42 @@
 
           <!-- Map Floating Top HUD Controls -->
           <div class="map-top-hud">
-            <div class="map-hud-group">
-              <button id="map-btn-recenter" class="map-hud-btn" title="Center Rover Dexter">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg>
-                <span>DEXTER</span>
-              </button>
-              <button id="map-btn-layers" class="map-hud-btn" title="Toggle Map Layers">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                <span>LAYERS</span>
-              </button>
+            <!-- Row 1: Action Bar with Dexter, Layers, GPS & Simulation -->
+            <div class="map-hud-row">
+              <div class="map-hud-group">
+                <button id="map-btn-recenter" class="map-hud-btn" title="Center Rover Dexter">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg>
+                  <span>DEXTER</span>
+                </button>
+                <button id="map-btn-layers" class="map-hud-btn" title="Toggle Map Layers">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                  <span>LAYERS</span>
+                </button>
+                <button id="map-btn-gps" class="map-hud-btn btn-gps-active" title="Detect Live Device GPS Location">
+                  <span class="live-dot pulse-emerald"></span>
+                  <span>MY GPS</span>
+                </button>
+              </div>
+
+              <div class="map-sim-controls">
+                <button id="btn-sim-rover-step" class="sim-btn" title="Advance Rover Simulation">
+                  <span>▶ STEP</span>
+                </button>
+                <button id="btn-sim-trigger-anomaly" class="sim-btn sim-btn-warn" title="Simulate Emergency Anomaly">
+                  <span>⚠️ HAZARD</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Row 2: Tactical Search Input (OpenStreetMap Nominatim API) -->
+            <div class="map-search-bar-wrap">
+              <div class="map-search-box">
+                <span class="search-lens-icon">🔍</span>
+                <input type="text" id="map-search-input" class="map-search-input" placeholder="Search sector / coords via OpenStreetMap API (e.g. Karur)..." autocomplete="off" />
+                <button id="map-btn-search-clear" class="btn-search-clear hidden" title="Clear">✕</button>
+                <button id="map-btn-search-go" class="btn-search-go" title="Search via Nominatim">SEARCH</button>
+              </div>
+              <div id="map-search-results" class="map-search-results hidden"></div>
             </div>
 
             <!-- Layer Switcher Dropdown (Floating) -->
@@ -264,15 +345,6 @@
                 <button class="tile-btn" data-tile="satellite">Satellite</button>
                 <button class="tile-btn" data-tile="topo">Terrain</button>
               </div>
-            </div>
-
-            <div class="map-sim-controls">
-              <button id="btn-sim-rover-step" class="sim-btn" title="Advance Rover Simulation">
-                <span>▶ STEP ROVER</span>
-              </button>
-              <button id="btn-sim-trigger-anomaly" class="sim-btn sim-btn-warn" title="Simulate Emergency Anomaly">
-                <span>⚠️ INJECT HAZARD</span>
-              </button>
             </div>
           </div>
 

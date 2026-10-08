@@ -107,8 +107,8 @@ class InzoraTerraApp {
       activeScreen.classList.add('active');
     }
 
-    // Invalidate Leaflet Map Size if switching to Mission
-    if (tabId === 'mission') {
+    // Invalidate Leaflet Map Size if switching to Mission or Home
+    if (tabId === 'mission' || tabId === 'home') {
       missionMap.invalidate();
     }
   }
