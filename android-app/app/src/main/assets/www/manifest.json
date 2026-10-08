@@ -1,0 +1,49 @@
+{
+  "name": "Inzora Terra — Mission Command Center",
+  "short_name": "Inzora Terra",
+  "description": "Advanced Mobile Rescue-Mission Command Center and Autonomous Multi-Agent Orchestration System",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0d14",
+  "theme_color": "#0a0d14",
+  "categories": ["utilities", "productivity"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Live Mission Map",
+      "short_name": "Map",
+      "description": "Open live tactical mission map and tracking",
+      "url": "./?tab=mission",
+      "icons": [{ "src": "icons/icon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Live Telemetry",
+      "short_name": "Telemetry",
+      "description": "View Dexter rover sensors and environmental metrics",
+      "url": "./?tab=telemetry",
+      "icons": [{ "src": "icons/icon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "AI Swarm & HITL",
+      "short_name": "Agents",
+      "description": "Inspect AI agents and mission approvals",
+      "url": "./?tab=agents",
+      "icons": [{ "src": "icons/icon.svg", "sizes": "96x96" }]
+    }
+  ]
+}

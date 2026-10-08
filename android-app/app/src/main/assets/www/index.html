@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#0a0d14">
   <meta name="description" content="Inzora Terra — Advanced Mobile Rescue-Mission Command Center and Autonomous Multi-Agent Orchestration System">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Inzora Terra">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+  <link rel="apple-touch-icon" href="./icons/icon.svg">
   <title>Inzora Terra — Rescue Mission Command Center</title>
 
   <!-- Google Fonts: Tactical and Clean Typography -->
@@ -15,8 +22,8 @@
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
-  <script type="module" crossorigin src="./assets/index-DjWqpQ6v.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CqmlOiez.css">
+  <script type="module" crossorigin src="./assets/index-B2Q1EKdQ.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Cg1VIEu0.css">
 </head>
 <body class="theme-midnight">
   <!-- Desktop App Frame Container (Enables realistic mobile phone viewport testing on desktop or fullscreen on mobile) -->
@@ -43,6 +50,10 @@
       </div>
 
       <div class="header-right">
+        <button id="btn-header-install" class="btn-install-hud" title="Install Inzora Terra Mobile App">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span class="install-btn-text">INSTALL</span>
+        </button>
         <button id="btn-device-toggle" class="icon-hud-btn" title="Toggle Mobile / Fullscreen Mode">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"></rect><line x1="12" y1="18" x2="12" y2="18.01"></line></svg>
         </button>
@@ -54,6 +65,23 @@
         </button>
       </div>
     </header>
+
+    <!-- Mobile Install Tactical Banner (Prompt when accessed via mobile browser) -->
+    <div id="mobile-install-banner" class="mobile-install-banner hidden">
+      <div class="banner-inner">
+        <div class="banner-badge">
+          <span class="banner-icon">📱</span>
+        </div>
+        <div class="banner-text">
+          <div class="banner-title">INSTALL INZORA TERRA</div>
+          <div class="banner-desc">Add to Home Screen for fast offline HUD & full-screen tactical ops</div>
+        </div>
+        <div class="banner-actions">
+          <button id="btn-mobile-banner-install" class="btn-banner-install">INSTALL</button>
+          <button id="btn-mobile-banner-dismiss" class="btn-banner-close" title="Dismiss">&times;</button>
+        </div>
+      </div>
+    </div>
 
     <!-- Global HITL Tactical Banner Alert (Shown when human intervention required) -->
     <div id="hitl-alert-banner" class="hitl-banner hidden">
@@ -886,7 +914,28 @@
             </div>
           </div>
 
-          <!-- Section 4: About Inzora Terra -->
+          <!-- Section 4: Mobile App & PWA Deployment -->
+          <div class="settings-group">
+            <h4 class="settings-group-title">MOBILE APP & PWA DEPLOYMENT</h4>
+            
+            <div class="setting-item">
+              <div class="si-left">
+                <span class="si-title">Install to Mobile Home Screen</span>
+                <span class="si-desc">Standalone fullscreen command center with offline HUD</span>
+              </div>
+              <button id="btn-settings-install-app" class="btn-tactical btn-mini-cyan">INSTALL APP</button>
+            </div>
+
+            <div class="setting-item">
+              <div class="si-left">
+                <span class="si-title">Mobile PWA Client Status</span>
+                <span class="si-desc">Progressive Web App & sensor bridge readiness</span>
+              </div>
+              <span id="settings-pwa-status" class="badge badge-cyan">READY TO INSTALL</span>
+            </div>
+          </div>
+
+          <!-- Section 5: About Inzora Terra -->
           <div class="settings-group">
             <h4 class="settings-group-title">ABOUT INZORA TERRA</h4>
             <div class="about-card">
@@ -1095,6 +1144,87 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
               <span>REJECT ACTION</span>
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 3: MOBILE INSTALL MODAL -->
+    <div id="install-app-modal" class="tactical-modal hidden">
+      <div class="modal-backdrop" id="install-modal-backdrop"></div>
+      <div class="modal-sheet-dialog install-dialog">
+        <div class="dialog-header">
+          <div class="dialog-title-group">
+            <span class="dialog-icon">📱</span>
+            <div>
+              <div class="dialog-title">INSTALL MOBILE APP</div>
+              <div class="dialog-sub">Inzora Terra Tactical Command PWA</div>
+            </div>
+          </div>
+          <button id="btn-close-install-modal" class="dialog-close-btn">&times;</button>
+        </div>
+
+        <div class="install-modal-body">
+          <div class="install-feature-highlights">
+            <div class="feature-item">
+              <span class="fi-icon">⚡</span>
+              <div class="fi-content">
+                <span class="fi-title">Full-Screen Tactical HUD</span>
+                <span class="fi-desc">Native edge-to-edge experience without browser URL bars</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="fi-icon">📶</span>
+              <div class="fi-content">
+                <span class="fi-title">Offline Mission Cache</span>
+                <span class="fi-desc">Instant offline sensor fusion caching & rapid boot</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="fi-icon">🚨</span>
+              <div class="fi-content">
+                <span class="fi-title">Real-Time Alerts</span>
+                <span class="fi-desc">Direct critical HITL alerts & field notifications</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Standard Chromium / Android One-Click Install Guide -->
+          <div id="install-guide-standard" class="install-guide-box">
+            <p class="guide-lead">Tap below to install Inzora Terra on your mobile device:</p>
+            <button id="btn-modal-confirm-install" class="btn-tactical btn-primary-start w-100">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>INSTALL TERRA ON DEVICE</span>
+            </button>
+          </div>
+
+          <!-- iOS Safari Guide -->
+          <div id="install-guide-ios" class="install-guide-box hidden">
+            <div class="ios-steps-list">
+              <div class="ios-step">
+                <span class="step-num">1</span>
+                <span class="step-text">Tap the <strong>Share</strong> button <span class="share-icon">⎋</span> (or <span class="share-icon">⬆</span>) in Safari's bottom toolbar.</span>
+              </div>
+              <div class="ios-step">
+                <span class="step-num">2</span>
+                <span class="step-text">Scroll down and tap <strong>Add to Home Screen</strong> <span class="share-icon">➕</span>.</span>
+              </div>
+              <div class="ios-step">
+                <span class="step-num">3</span>
+                <span class="step-text">Tap <strong>Add</strong> in the top right. Launch from your home screen anytime!</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Standalone Already Active View -->
+          <div id="install-guide-installed" class="install-guide-box hidden">
+            <div class="installed-banner">
+              <span class="installed-check">✓</span>
+              <div>
+                <div class="inst-heading">APPLICATION ALREADY INSTALLED</div>
+                <div class="inst-sub">You are running Inzora Terra in native standalone command mode.</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

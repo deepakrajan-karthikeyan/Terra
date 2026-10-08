@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
+    "sync:android": "node -e \"const fs=require('fs'); fs.cpSync('dist', 'android-app/app/src/main/assets/www', {recursive: true}); console.log('✓ Synced to Android assets');\"",
+    "build:all": "vite build && npm run sync:android",
     "preview": "vite preview"
   },
   "devDependencies": {

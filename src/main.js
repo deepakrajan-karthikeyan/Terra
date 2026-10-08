@@ -10,6 +10,7 @@ import { agents } from './agents.js';
 import { dexter } from './dexter.js';
 import { hitl } from './hitl.js';
 import { reports } from './reports.js';
+import { appInstaller } from './install.js';
 
 class InzoraTerraApp {
   constructor() {
@@ -26,6 +27,7 @@ class InzoraTerraApp {
     dexter.init();
     hitl.init();
     reports.init();
+    appInstaller.init();
 
     // Bind Core UI Listeners
     this.bindNavigation();
@@ -34,9 +36,17 @@ class InzoraTerraApp {
     this.bindHeaderActions();
     this.bindSettings();
 
+    // Check URL tab query param (e.g. from PWA shortcuts)
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabParam = urlParams.get('tab');
+    if (tabParam && ['home', 'mission', 'telemetry', 'agents', 'reports', 'settings'].includes(tabParam)) {
+      this.switchTab(tabParam);
+    }
+
     // Global helper exports on window for cross-module dispatch
     window.switchTab = (tabId) => this.switchTab(tabId);
     window.openHITL = () => hitl.open();
+    window.openInstallModal = () => appInstaller.openInstallModal();
     window.showToast = (msg, type) => this.showToast(msg, type);
     window.setReportLanguage = (lang) => reports.setLanguage(lang);
 
