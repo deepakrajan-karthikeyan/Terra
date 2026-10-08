@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0d14">
+  <meta name="description" content="Inzora Terra — Advanced Mobile Rescue-Mission Command Center and Autonomous Multi-Agent Orchestration System">
+  <title>Inzora Terra — Rescue Mission Command Center</title>
+
+  <!-- Google Fonts: Tactical and Clean Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Mukta+Malar:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  
+  <script type="module" crossorigin src="./assets/index-DjWqpQ6v.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CqmlOiez.css">
+</head>
+<body class="theme-midnight">
+  <!-- Desktop App Frame Container (Enables realistic mobile phone viewport testing on desktop or fullscreen on mobile) -->
+  <div id="app-root" class="app-root">
+    
+    <!-- Top Global App Bar -->
+    <header class="tactical-header">
+      <div class="header-left">
+        <div class="app-badge">
+          <span class="brand-insignia">⚡</span>
+          <div class="brand-text">
+            <span class="brand-title">INZORA TERRA</span>
+            <span class="brand-sub">TACTICAL OPS v2.4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="connection-status" id="header-conn-status" title="Telemetry SSE Stream">
+          <span class="live-dot pulse-emerald"></span>
+          <span class="status-label">SSE LIVE</span>
+          <span class="latency-pill">18ms</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="btn-device-toggle" class="icon-hud-btn" title="Toggle Mobile / Fullscreen Mode">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"></rect><line x1="12" y1="18" x2="12" y2="18.01"></line></svg>
+        </button>
+        <button id="btn-quick-sound" class="icon-hud-btn" title="Toggle Tactical Audio FX">
+          <svg id="sound-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        </button>
+        <button id="btn-commander-avatar" class="commander-avatar-btn" title="Commander Profile & Settings">
+          <span class="avatar-tag">CMD</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Global HITL Tactical Banner Alert (Shown when human intervention required) -->
+    <div id="hitl-alert-banner" class="hitl-banner hidden">
+      <div class="hitl-banner-content">
+        <div class="hitl-banner-icon">⚠️</div>
+        <div class="hitl-banner-info">
+          <div class="hitl-banner-title">DECISION REQUIRED: HIGH-RISK ZONE DETECTED</div>
+          <div class="hitl-banner-desc">Risk Conf: 91% • Thermal victim & structural instability in Sector 04</div>
+        </div>
+        <button id="btn-banner-review" class="btn-banner-action">REVIEW</button>
+      </div>
+    </div>
+
+    <!-- MAIN SCREENS CONTAINER (Stacked views for smooth mobile transitions) -->
+    <main class="screens-viewport">
+      
+      <!-- SCREEN 1: HOME (Mission Command Center) -->
+      <section id="screen-home" class="screen-view active">
+        <div class="screen-scroll-container">
+          
+          <!-- Tactical Mission Readiness Card -->
+          <div class="tactical-card readiness-card">
+            <div class="card-header-bar">
+              <span class="card-eyebrow">MISSION READINESS</span>
+              <span class="badge badge-emerald" id="home-mission-status-badge">● READY</span>
+            </div>
+            
+            <div class="readiness-grid">
+              <div class="readiness-item">
+                <span class="r-label">Rover Dexter</span>
+                <span class="r-val val-green">Connected (MK-IV)</span>
+              </div>
+              <div class="readiness-item">
+                <span class="r-label">GPS RTK</span>
+                <span class="r-val val-green">Active (14 Sats)</span>
+              </div>
+              <div class="readiness-item">
+                <span class="r-label">Sensors</span>
+                <span class="r-val val-green">12/12 Online</span>
+              </div>
+              <div class="readiness-item">
+                <span class="r-label">Network Mesh</span>
+                <span class="r-val val-green">Strong (-64 dBm)</span>
+              </div>
+            </div>
+
+            <div class="readiness-actions">
+              <button id="btn-start-mission" class="btn-tactical btn-primary-start">
+                <span class="btn-glow"></span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span id="btn-start-mission-label">START MISSION</span>
+              </button>
+              <button id="btn-abort-mission" class="btn-tactical btn-danger-abort">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="4" y="4" width="16" height="16" rx="2"></rect></svg>
+                <span>STOP MISSION</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Stats Row -->
+          <div class="stats-ribbon">
+            <div class="stat-pill">
+              <span class="stat-icon">🚩</span>
+              <div class="stat-data">
+                <span class="stat-num" id="stat-active-missions">01</span>
+                <span class="stat-label">Active Mission</span>
+              </div>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-icon">🔋</span>
+              <div class="stat-data">
+                <span class="stat-num" id="stat-rover-battery">82%</span>
+                <span class="stat-label">Battery Level</span>
+              </div>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-icon">⚠️</span>
+              <div class="stat-data">
+                <span class="stat-num text-amber" id="stat-alerts">02</span>
+                <span class="stat-label">Active Alerts</span>
+              </div>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-icon">⏱️</span>
+              <div class="stat-data">
+                <span class="stat-num" id="stat-mission-elapsed">34m</span>
+                <span class="stat-label">Elapsed Time</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Incident Overview Card -->
+          <div class="tactical-card incident-card">
+            <div class="card-header-bar">
+              <span class="card-eyebrow">CURRENT OPERATIONAL DISPATCH</span>
+              <span class="badge badge-amber">ZONE 04</span>
+            </div>
+            <div class="incident-body">
+              <div class="incident-title">Karur Sector — Subterranean Slope Failure</div>
+              <p class="incident-desc">
+                High-gradient landslide with suspected buried infrastructure and hazardous gas accumulation. Multi-agent rescue protocol deployed.
+              </p>
+              <div class="incident-meta-chips">
+                <span class="chip">📍 Karur Ridge (10.9601° N, 78.0766° E)</span>
+                <span class="chip chip-danger">🧍 3 Victims Trapped</span>
+                <span class="chip chip-warning">☣️ Gas 74 ppm</span>
+              </div>
+            </div>
+            <button id="btn-goto-live-mission" class="btn-tactical btn-outline-cyan">
+              <span>OPEN LIVE MAP & MISSIONS</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+
+          <!-- Recent Missions Section -->
+          <div class="section-container">
+            <div class="section-header">
+              <h3 class="section-title">RECENT MISSIONS</h3>
+              <button id="btn-view-all-reports" class="link-btn">View All</button>
+            </div>
+            <div class="recent-missions-list" id="recent-missions-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Emergency Action Bar -->
+          <div class="emergency-bar-box">
+            <span class="emergency-bar-title">RAPID DISPATCH CONTROLS</span>
+            <div class="emergency-btn-grid">
+              <button class="btn-sec-action" id="btn-home-resume">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Resume
+              </button>
+              <button class="btn-sec-action" id="btn-home-recalibrate">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+                Sync Sensors
+              </button>
+              <button class="btn-sec-action" id="btn-home-call-hitl">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                Commander Review
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SCREEN 2: MISSION (⭐ Main Screen — Live Map) -->
+      <section id="screen-mission" class="screen-view">
+        <div class="map-viewport-wrapper">
+          <!-- The Leaflet Map Canvas -->
+          <div id="mission-map" class="mission-map"></div>
+
+          <!-- Map Floating Top HUD Controls -->
+          <div class="map-top-hud">
+            <div class="map-hud-group">
+              <button id="map-btn-recenter" class="map-hud-btn" title="Center Rover Dexter">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg>
+                <span>DEXTER</span>
+              </button>
+              <button id="map-btn-layers" class="map-hud-btn" title="Toggle Map Layers">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                <span>LAYERS</span>
+              </button>
+            </div>
+
+            <!-- Layer Switcher Dropdown (Floating) -->
+            <div id="map-layers-panel" class="map-layers-panel hidden">
+              <div class="layers-title">TACTICAL OVERLAYS</div>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-rover" checked> <span>🤖 Rover Dexter</span></label>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-victims" checked> <span>🧍 Victims (3 Detected)</span></label>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-hazards" checked> <span>⚠️ Risk Zones</span></label>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-thermal" checked> <span>🔥 Thermal Anomalies</span></label>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-gas" checked> <span>☣️ Toxic Gas Plume</span></label>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-routes" checked> <span>🚧 Blocked & Safe Routes</span></label>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-resources" checked> <span>🚑 Rescue Resources</span></label>
+              <div class="layers-divider"></div>
+              <div class="tile-options">
+                <button class="tile-btn active" data-tile="dark">Tactical Dark</button>
+                <button class="tile-btn" data-tile="satellite">Satellite</button>
+                <button class="tile-btn" data-tile="topo">Terrain</button>
+              </div>
+            </div>
+
+            <div class="map-sim-controls">
+              <button id="btn-sim-rover-step" class="sim-btn" title="Advance Rover Simulation">
+                <span>▶ STEP ROVER</span>
+              </button>
+              <button id="btn-sim-trigger-anomaly" class="sim-btn sim-btn-warn" title="Simulate Emergency Anomaly">
+                <span>⚠️ INJECT HAZARD</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom Mission Sheet (Draggable / Expandable Sheet) -->
+          <div id="mission-bottom-sheet" class="bottom-mission-sheet peek">
+            <div class="sheet-drag-handle-bar" id="sheet-handle">
+              <span class="sheet-pill"></span>
+            </div>
+
+            <!-- Header / Peek View -->
+            <div class="sheet-peek-content" id="sheet-peek-header">
+              <div class="sheet-main-status">
+                <div class="sheet-status-left">
+                  <div class="mission-status-title">
+                    <span class="live-dot pulse-emerald"></span>
+                    <span>MISSION ACTIVE</span>
+                  </div>
+                  <div class="mission-sub-title">Landslide — Zone 04 (Karur)</div>
+                </div>
+                <div class="sheet-status-right">
+                  <button id="btn-sheet-expand-toggle" class="btn-pill-toggle">View Details</button>
+                </div>
+              </div>
+
+              <!-- Quick Metrics Grid -->
+              <div class="sheet-metrics-row">
+                <div class="sheet-metric-cell">
+                  <span class="sm-label">Risk</span>
+                  <span class="sm-val text-crimson">HIGH</span>
+                </div>
+                <div class="sheet-metric-cell">
+                  <span class="sm-label">Victims</span>
+                  <span class="sm-val text-amber">03</span>
+                </div>
+                <div class="sheet-metric-cell">
+                  <span class="sm-label">Rover</span>
+                  <span class="sm-val text-emerald">ACTIVE</span>
+                </div>
+                <div class="sheet-metric-cell">
+                  <span class="sm-label">Confidence</span>
+                  <span class="sm-val text-cyan">89%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Expanded Body of Bottom Sheet -->
+            <div class="sheet-expanded-body">
+              <div class="sheet-section">
+                <div class="sheet-section-title">ACTIVE HAZARD ANALYSIS</div>
+                <div class="hazard-summary-card">
+                  <div class="hazard-badge-strip">
+                    <span class="tag-badge bg-danger">Slope Instability: 82%</span>
+                    <span class="tag-badge bg-warning">Gas (H2S/CO): 74 ppm</span>
+                    <span class="tag-badge bg-orange">Thermal Core: 42°C</span>
+                  </div>
+                  <p class="hazard-text">
+                    Soil moisture saturation and subterranean cavitation detected via GPR at depth 2.4m. Team Alpha rerouted along North Ridge ridge trail.
+                  </p>
+                </div>
+              </div>
+
+              <div class="sheet-section">
+                <div class="sheet-section-title">DETECTED VICTIMS & TRIAGE</div>
+                <div class="victims-mini-list">
+                  <div class="victim-mini-item">
+                    <div class="v-avatar">#01</div>
+                    <div class="v-info">
+                      <div class="v-name">Victim 1 (Debris Pocket A)</div>
+                      <div class="v-meta">Thermal: 36.8°C • Heartbeat acoustic detected • Trapped</div>
+                    </div>
+                    <span class="status-chip chip-critical">PRIORITY 1</span>
+                  </div>
+                  <div class="victim-mini-item">
+                    <div class="v-avatar">#02</div>
+                    <div class="v-info">
+                      <div class="v-name">Victim 2 (Cavity B)</div>
+                      <div class="v-meta">Thermal: 36.5°C • Conscious voice pulses • Accessible</div>
+                    </div>
+                    <span class="status-chip chip-high">PRIORITY 2</span>
+                  </div>
+                  <div class="victim-mini-item">
+                    <div class="v-avatar">#03</div>
+                    <div class="v-info">
+                      <div class="v-name">Victim 3 (Lower Slope)</div>
+                      <div class="v-meta">Thermal: 35.9°C • Stable, partial obstruction</div>
+                    </div>
+                    <span class="status-chip chip-moderate">PRIORITY 3</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sheet-actions-row">
+                <button id="btn-deploy-team-alpha" class="btn-tactical btn-primary-start">
+                  <span>DEPLOY RESCUE TEAM ALPHA</span>
+                </button>
+                <button id="btn-trigger-hitl-modal" class="btn-tactical btn-outline-cyan">
+                  <span>COMMANDER DECISION</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: TELEMETRY (Live Sensor & Rover Data) -->
+      <section id="screen-telemetry" class="screen-view">
+        <div class="screen-scroll-container">
+          
+          <div class="screen-hero-bar">
+            <div>
+              <h2 class="hero-title">LIVE TELEMETRY</h2>
+              <span class="hero-subtitle">Real-time telemetry stream from Dexter MK-IV</span>
+            </div>
+            <div class="sync-badge">
+              <span class="live-dot pulse-emerald"></span>
+              <span id="telemetry-hz">1.0 Hz STREAM</span>
+            </div>
+          </div>
+
+          <!-- Section A: Dexter Rover Status Card -->
+          <div class="tactical-card rover-card">
+            <div class="card-header-bar">
+              <div class="card-title-with-icon">
+                <span class="card-icon">🤖</span>
+                <span class="card-eyebrow">DEXTER ROVER STATUS</span>
+              </div>
+              <span class="badge badge-emerald">NAVIGATING</span>
+            </div>
+
+            <div class="telemetry-grid">
+              <div class="tele-item">
+                <span class="ti-label">Battery Level</span>
+                <div class="ti-val-group">
+                  <span class="ti-val text-emerald" id="val-battery">82%</span>
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill fill-emerald" id="bar-battery" style="width: 82%;"></div>
+                  </div>
+                </div>
+                <span class="ti-sub">24.8V • 4h 15m remaining</span>
+              </div>
+
+              <div class="tele-item">
+                <span class="ti-label">RF Signal</span>
+                <div class="ti-val-group">
+                  <span class="ti-val text-cyan" id="val-signal">Strong</span>
+                  <span class="ti-unit" id="val-signal-dbm">-68 dBm</span>
+                </div>
+                <span class="ti-sub">LoRa Mesh + 5G Fallback</span>
+              </div>
+
+              <div class="tele-item">
+                <span class="ti-label">GPS RTK</span>
+                <div class="ti-val-group">
+                  <span class="ti-val text-emerald" id="val-gps">Locked</span>
+                  <span class="ti-unit">14 Sats</span>
+                </div>
+                <span class="ti-sub">Accuracy: ±1.8 cm</span>
+              </div>
+
+              <div class="tele-item">
+                <span class="ti-label">Ground Speed</span>
+                <div class="ti-val-group">
+                  <span class="ti-val text-white" id="val-speed">1.8</span>
+                  <span class="ti-unit">m/s</span>
+                </div>
+                <span class="ti-sub">Motor RPM: 412 • Heading: 042°</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section B: Environmental Hazards Card -->
+          <div class="tactical-card env-card">
+            <div class="card-header-bar">
+              <div class="card-title-with-icon">
+                <span class="card-icon">🌍</span>
+                <span class="card-eyebrow">ENVIRONMENTAL SENSORS</span>
+              </div>
+              <span class="badge badge-amber">HAZARDS ACTIVE</span>
+            </div>
+
+            <div class="telemetry-grid">
+              <div class="tele-item">
+                <div class="ti-head">
+                  <span class="ti-label">Temperature</span>
+                  <span class="tag-badge bg-danger">ELEVATED</span>
+                </div>
+                <div class="ti-val-group">
+                  <span class="ti-val text-crimson" id="val-temp">42°</span>
+                  <span class="ti-unit">C</span>
+                </div>
+                <div class="sparkline-container">
+                  <canvas id="spark-temp" width="160" height="32"></canvas>
+                </div>
+              </div>
+
+              <div class="tele-item">
+                <div class="ti-head">
+                  <span class="ti-label">Toxic Gas (H2S/CO)</span>
+                  <span class="tag-badge bg-warning">WARNING</span>
+                </div>
+                <div class="ti-val-group">
+                  <span class="ti-val text-amber" id="val-gas">74</span>
+                  <span class="ti-unit">ppm</span>
+                </div>
+                <div class="sparkline-container">
+                  <canvas id="spark-gas" width="160" height="32"></canvas>
+                </div>
+              </div>
+
+              <div class="tele-item">
+                <div class="ti-head">
+                  <span class="ti-label">Ambient Humidity</span>
+                  <span class="tag-badge bg-cyan">NORMAL</span>
+                </div>
+                <div class="ti-val-group">
+                  <span class="ti-val text-cyan" id="val-humidity">68%</span>
+                  <span class="ti-unit">RH</span>
+                </div>
+                <span class="ti-sub">Dew Point: 24.2°C</span>
+              </div>
+
+              <div class="tele-item">
+                <div class="ti-head">
+                  <span class="ti-label">Inclinometer Tilt</span>
+                  <span class="tag-badge bg-amber" id="val-tilt-badge">ATTENTION</span>
+                </div>
+                <div class="ti-val-group">
+                  <span class="ti-val text-amber" id="val-tilt">8.2°</span>
+                  <span class="ti-unit">Pitch</span>
+                </div>
+                <div class="artificial-horizon">
+                  <div class="horizon-ring">
+                    <div class="horizon-line" id="horizon-indicator" style="transform: rotate(8.2deg);"></div>
+                  </div>
+                  <span class="horizon-text">Roll: 3.4°</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section C: Sensor Health Diagnostics Card -->
+          <div class="tactical-card sensors-card">
+            <div class="card-header-bar">
+              <div class="card-title-with-icon">
+                <span class="card-icon">📡</span>
+                <span class="card-eyebrow">SENSOR HEALTH MATRIX</span>
+              </div>
+              <span class="badge badge-emerald">12/12 ONLINE</span>
+            </div>
+
+            <div class="sensor-health-list">
+              <div class="sensor-health-row">
+                <div class="sh-left">
+                  <span class="sh-dot dot-online"></span>
+                  <span class="sh-name">Gas Sensor (PID / Electrochemical)</span>
+                </div>
+                <span class="sh-status text-emerald">ONLINE</span>
+              </div>
+              <div class="sensor-health-row">
+                <div class="sh-left">
+                  <span class="sh-dot dot-online"></span>
+                  <span class="sh-name">Thermal Camera (FLIR Lepton 3.5)</span>
+                </div>
+                <span class="sh-status text-emerald">ONLINE</span>
+              </div>
+              <div class="sensor-health-row">
+                <div class="sh-left">
+                  <span class="sh-dot dot-online"></span>
+                  <span class="sh-name">LiDAR 3D Pointcloud (Livox Mid-360)</span>
+                </div>
+                <span class="sh-status text-emerald">ONLINE</span>
+              </div>
+              <div class="sensor-health-row">
+                <div class="sh-left">
+                  <span class="sh-dot dot-scanning"></span>
+                  <span class="sh-name">Ground Penetrating Radar (GPR 500MHz)</span>
+                </div>
+                <span class="sh-status text-cyan">SCANNING</span>
+              </div>
+              <div class="sensor-health-row">
+                <div class="sh-left">
+                  <span class="sh-dot dot-online"></span>
+                  <span class="sh-name">Optical Starlight Camera (4K EIS)</span>
+                </div>
+                <span class="sh-status text-emerald">ONLINE</span>
+              </div>
+              <div class="sensor-health-row">
+                <div class="sh-left">
+                  <span class="sh-dot dot-online"></span>
+                  <span class="sh-name">Acoustic Life Resonance Array</span>
+                </div>
+                <span class="sh-status text-emerald">ONLINE</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SCREEN 4: AGENTS (AI Agent Activity & Orchestration) -->
+      <section id="screen-agents" class="screen-view">
+        <div class="screen-scroll-container">
+          
+          <div class="screen-hero-bar">
+            <div>
+              <h2 class="hero-title">AI AGENT SWARM</h2>
+              <span class="hero-subtitle">Multi-Agent reasoning, decisions & orchestration</span>
+            </div>
+            <button id="btn-retrigger-orchestration" class="btn-tactical btn-mini-cyan">
+              <span>RE-RUN PIPELINE</span>
+            </button>
+          </div>
+
+          <!-- Active Multi-Agent Status Cards -->
+          <div class="agents-stack">
+            
+            <!-- Risk Agent Card -->
+            <div class="agent-card status-completed">
+              <div class="agent-card-header">
+                <div class="agent-id">
+                  <span class="agent-badge-icon">⚠️</span>
+                  <div>
+                    <div class="agent-title">Risk Agent</div>
+                    <div class="agent-role">Hazard Assessment & Terrain Dynamics</div>
+                  </div>
+                </div>
+                <span class="badge badge-emerald">● COMPLETED</span>
+              </div>
+              <div class="agent-metrics-row">
+                <div class="am-item">
+                  <span class="am-label">Risk Level</span>
+                  <span class="am-val text-crimson">HIGH</span>
+                </div>
+                <div class="am-item">
+                  <span class="am-label">Confidence</span>
+                  <span class="am-val text-cyan">91%</span>
+                </div>
+                <div class="am-item">
+                  <span class="am-label">Execution</span>
+                  <span class="am-val text-white">3.2s</span>
+                </div>
+              </div>
+              <div class="agent-quote">
+                "Structural instability detected along fault corridor 4B. High probability of secondary slide within 20 mins. Toxic gas plume expanding southward."
+              </div>
+              <button class="agent-log-toggle" data-agent="risk">
+                <span>View Raw Inference Payload</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="agent-log-content hidden" id="log-risk">
+                <pre><code>{
+  "agent": "RiskAssessmentAgent",
+  "slope_gradient": 38.4,
+  "moisture_index": 0.88,
+  "gas_threshold_exceeded": true,
+  "risk_score": 0.912,
+  "safety_perimeter_m": 85
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- Victim Agent Card -->
+            <div class="agent-card status-running">
+              <div class="agent-card-header">
+                <div class="agent-id">
+                  <span class="agent-badge-icon">🧍</span>
+                  <div>
+                    <div class="agent-title">Victim Detection Agent</div>
+                    <div class="agent-role">Thermal & Bio-Acoustic Fusion</div>
+                  </div>
+                </div>
+                <span class="badge badge-cyan pulse-cyan">● RUNNING</span>
+              </div>
+              <div class="agent-metrics-row">
+                <div class="am-item">
+                  <span class="am-label">Signatures</span>
+                  <span class="am-val text-amber">3 DETECTED</span>
+                </div>
+                <div class="am-item">
+                  <span class="am-label">Confidence</span>
+                  <span class="am-val text-cyan">88%</span>
+                </div>
+                <div class="am-item">
+                  <span class="am-label">Scanning</span>
+                  <span class="am-val text-emerald">Zone 04 Debris</span>
+                </div>
+              </div>
+              <div class="agent-quote">
+                "Searching thermal signatures... 3 human heat contours verified against FLIR Lepton radiometric database. Acoustic pulse detected in Sector 04-B."
+              </div>
+              <button class="agent-log-toggle" data-agent="victim">
+                <span>View Raw Inference Payload</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="agent-log-content hidden" id="log-victim">
+                <pre><code>{
+  "agent": "VictimAgent",
+  "targets": [
+    {"id": "V1", "coords": [10.9608, 78.0772], "thermal_c": 36.8, "vital_prob": 0.94},
+    {"id": "V2", "coords": [10.9598, 78.0759], "thermal_c": 36.5, "vital_prob": 0.88},
+    {"id": "V3", "coords": [10.9612, 78.0761], "thermal_c": 35.9, "vital_prob": 0.76}
+  ]
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- Resource Agent Card -->
+            <div class="agent-card status-waiting">
+              <div class="agent-card-header">
+                <div class="agent-id">
+                  <span class="agent-badge-icon">🚑</span>
+                  <div>
+                    <div class="agent-title">Resource Agent</div>
+                    <div class="agent-role">Rescue Allocation & Path Planning</div>
+                  </div>
+                </div>
+                <span class="badge badge-amber">○ WAITING FOR HITL</span>
+              </div>
+              <div class="agent-metrics-row">
+                <div class="am-item">
+                  <span class="am-label">Recommended</span>
+                  <span class="am-val text-emerald">Team Alpha</span>
+                </div>
+                <div class="am-item">
+                  <span class="am-label">Route ETA</span>
+                  <span class="am-val text-white">4.8 min</span>
+                </div>
+                <div class="am-item">
+                  <span class="am-label">Clearance</span>
+                  <span class="am-val text-amber">Pending Approval</span>
+                </div>
+              </div>
+              <div class="agent-quote">
+                "Waiting for Commander authorization. Proposed route bypasses gas plume via Northern Ridge trail directly to Victim #01."
+              </div>
+              <button class="agent-log-toggle" data-agent="resource">
+                <span>View Raw Inference Payload</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="agent-log-content hidden" id="log-resource">
+                <pre><code>{
+  "agent": "ResourceDispatchAgent",
+  "dispatch_unit": "Rescue Team Alpha (Paramedics + K9)",
+  "evacuation_corridor": "Waypoint A4 -> Ridge Trail N2",
+  "hazard_clearance_status": "PENDING_COMMANDER_SIGN_OFF"
+}</code></pre>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Section 6: Agent Orchestration Timeline -->
+          <div class="tactical-card timeline-card">
+            <div class="card-header-bar">
+              <span class="card-eyebrow">AGENT ORCHESTRATION TIMELINE</span>
+              <span class="badge badge-cyan">AUTONOMOUS FLOW</span>
+            </div>
+
+            <div class="agent-timeline" id="agent-timeline-container">
+              <!-- Rendered via JS to support interactive replay and flow animation -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SCREEN 5: REPORTS (Mission History, Replay & Final Report) -->
+      <section id="screen-reports" class="screen-view">
+        <div class="screen-scroll-container">
+          
+          <div class="screen-hero-bar">
+            <div>
+              <h2 class="hero-title">MISSION REPORTS</h2>
+              <span class="hero-subtitle">Comprehensive audits, bilingual translation & replay</span>
+            </div>
+            
+            <!-- Language Switcher for Reports -->
+            <div class="lang-toggle-bar">
+              <span class="lang-label">🌐 Language:</span>
+              <button id="btn-lang-en" class="lang-chip active">English</button>
+              <button id="btn-lang-ta" class="lang-chip">தமிழ்</button>
+            </div>
+          </div>
+
+          <!-- Interactive Mission Replay Engine Card -->
+          <div class="tactical-card replay-card">
+            <div class="card-header-bar">
+              <div class="card-title-with-icon">
+                <span class="card-icon">⏮️</span>
+                <span class="card-eyebrow" id="rep-replay-header">MISSION REPLAY ENGINE</span>
+              </div>
+              <span class="badge badge-purple" id="rep-replay-status-badge">REPLAY READY</span>
+            </div>
+
+            <div class="replay-controls-box">
+              <div class="replay-time-display">
+                <span class="time-marker">09:42:00</span>
+                <span class="time-current text-cyan" id="replay-current-timestamp">09:48:15</span>
+                <span class="time-marker">10:14:00</span>
+              </div>
+
+              <!-- Interactive scrubber slider -->
+              <input type="range" id="replay-scrubber" class="tactical-range" min="0" max="100" value="25" step="1">
+
+              <div class="replay-playback-bar">
+                <div class="playback-buttons">
+                  <button id="btn-replay-play" class="replay-btn btn-play" title="Play Replay">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  </button>
+                  <button id="btn-replay-reset" class="replay-btn" title="Reset to Start">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                  </button>
+                </div>
+
+                <div class="replay-speed-selector">
+                  <span class="speed-label">Speed:</span>
+                  <button class="speed-btn active" data-speed="1">1x</button>
+                  <button class="speed-btn" data-speed="2">2x</button>
+                  <button class="speed-btn" data-speed="5">5x</button>
+                </div>
+              </div>
+
+              <div class="replay-synced-pill" id="replay-synced-indicator">
+                <span class="pulse-cyan live-dot"></span>
+                <span id="replay-sync-text">Synchronizing Rover, Sensors, Risk & Victims at 09:48:15</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Final Mission Report Card (Bilingual Support: English / Tamil) -->
+          <div class="tactical-card report-document-card" id="final-report-container">
+            <!-- Rendered dynamically with full Tamil / English content -->
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SCREEN 6: SETTINGS (System, Mission, Connectivity, About) -->
+      <section id="screen-settings" class="screen-view">
+        <div class="screen-scroll-container">
+          
+          <div class="screen-hero-bar">
+            <div>
+              <h2 class="hero-title">SETTINGS</h2>
+              <span class="hero-subtitle">System configuration & telemetry parameters</span>
+            </div>
+            <button id="btn-close-settings" class="btn-tactical btn-mini-cyan">Done</button>
+          </div>
+
+          <!-- Section 1: System Settings -->
+          <div class="settings-group">
+            <h4 class="settings-group-title">SYSTEM PREFERENCES</h4>
+            
+            <div class="setting-item">
+              <div class="si-left">
+                <span class="si-title">Tactical Sound Effects</span>
+                <span class="si-desc">Audio cues for alarms, approvals and Dexter feedback</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="set-audio" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <div class="si-left">
+                <span class="si-title">Emergency Push Notifications</span>
+                <span class="si-desc">Real-time alerts on vital drops or gas surge</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="set-notify" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <div class="si-left">
+                <span class="si-title">Measurement Units</span>
+                <span class="si-desc">Metric (m/s, °C, m) vs Imperial (mph, °F, ft)</span>
+              </div>
+              <select id="set-units" class="tactical-select">
+                <option value="metric" selected>Metric (m, °C, m/s)</option>
+                <option value="imperial">Imperial (ft, °F, mph)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Section 2: Mission Parameters -->
+          <div class="settings-group">
+            <h4 class="settings-group-title">MISSION PARAMETERS</h4>
+            
+            <div class="setting-item">
+              <div class="si-left">
+                <span class="si-title">Telemetry Refresh Rate</span>
+                <span class="si-desc">Sensor polling interval over SSE</span>
+              </div>
+              <select id="set-refresh" class="tactical-select">
+                <option value="500">500 ms (High Precision)</option>
+                <option value="1000" selected>1000 ms (Standard 1Hz)</option>
+                <option value="2000">2000 ms (Battery Saving)</option>
+              </select>
+            </div>
+
+            <div class="setting-item">
+              <div class="si-left">
+                <span class="si-title">Alert Sensitivity Threshold</span>
+                <span class="si-desc">Trigger HITL review for risk confidence &gt; 85%</span>
+              </div>
+              <select id="set-sensitivity" class="tactical-select">
+                <option value="strict">Strict (Confidence &gt; 75%)</option>
+                <option value="standard" selected>Standard (Confidence &gt; 85%)</option>
+                <option value="relaxed">Relaxed (Confidence &gt; 95%)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Section 3: Connectivity -->
+          <div class="settings-group">
+            <h4 class="settings-group-title">CONNECTIVITY & TELEMETRY BRIDGE</h4>
+            
+            <div class="setting-item">
+              <div class="si-left">
+                <span class="si-title">API Endpoint</span>
+                <span class="si-desc text-mono">https://api.inzora-terra.internal:8443</span>
+              </div>
+              <span class="badge badge-emerald">HEALTHY</span>
+            </div>
+
+            <div class="setting-item">
+              <div class="si-left">
+                <span class="si-title">Simulate Real Rover Bridge</span>
+                <span class="si-desc">Generate dynamic field sensor telemetry</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="set-sim-stream" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Section 4: About Inzora Terra -->
+          <div class="settings-group">
+            <h4 class="settings-group-title">ABOUT INZORA TERRA</h4>
+            <div class="about-card">
+              <div class="about-title">INZORA TERRA — RESCUE INTELLIGENCE</div>
+              <div class="about-meta">
+                <span>Version: 2.4.0-Production</span>
+                <span>Inzora IME Orchestration Framework</span>
+                <span>Deep Learning Sensor Fusion v4</span>
+                <span>Commander: Vance | Call-Sign: TN-CMD-77</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FLOATING DEXTER BUTTON (Central Tactical Voice Command Button) -->
+    <div class="floating-dexter-container">
+      <button id="btn-floating-dexter" class="floating-dexter-btn" title="Open Dexter AI Mission Assistant">
+        <span class="dexter-ring-pulse"></span>
+        <span class="dexter-ring-glow"></span>
+        <div class="dexter-inner-core">
+          <span class="dexter-icon">🤖</span>
+          <span class="dexter-tag">DEXTER</span>
+        </div>
+      </button>
+    </div>
+
+    <!-- BOTTOM NAVIGATION BAR (5 Primary Tabs) -->
+    <nav class="bottom-nav-bar">
+      <button class="nav-tab active" data-tab="home" id="tab-home">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+      </button>
+
+      <button class="nav-tab" data-tab="mission" id="tab-mission">
+        <span class="nav-icon">🗺️</span>
+        <span class="nav-label">Mission</span>
+      </button>
+
+      <!-- Center Spacer for Floating Dexter Button -->
+      <div class="nav-center-spacer"></div>
+
+      <button class="nav-tab" data-tab="telemetry" id="tab-telemetry">
+        <span class="nav-icon">📡</span>
+        <span class="nav-label">Telemetry</span>
+      </button>
+
+      <button class="nav-tab" data-tab="agents" id="tab-agents">
+        <span class="nav-icon">🤖</span>
+        <span class="nav-label">Agents</span>
+      </button>
+
+      <button class="nav-tab" data-tab="reports" id="tab-reports">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label">Reports</span>
+      </button>
+    </nav>
+
+    <!-- MODAL 1: DEXTER VOICE COMMAND & AI ASSISTANT PANEL -->
+    <div id="dexter-panel-modal" class="tactical-modal hidden">
+      <div class="modal-backdrop" id="dexter-backdrop"></div>
+      <div class="modal-sheet-dialog">
+        <div class="dialog-header">
+          <div class="dialog-title-group">
+            <span class="dialog-icon">🤖</span>
+            <div>
+              <div class="dialog-title">DEXTER MISSION ASSISTANT</div>
+              <div class="dialog-sub" id="dexter-mode-sub">Tactical Voice & Natural Command Engine</div>
+            </div>
+          </div>
+          <button id="btn-close-dexter" class="dialog-close-btn">&times;</button>
+        </div>
+
+        <div class="dexter-modal-body">
+          <!-- Voice Soundwave Animation -->
+          <div class="voice-anim-box">
+            <div class="dexter-speech-bubble" id="dexter-response-text">
+              "Yes, Commander. Dexter is online and monitoring Karur Sector 04. How can I assist this mission?"
+            </div>
+            
+            <div class="soundwave-bars" id="voice-soundwave">
+              <span class="bar bar-1"></span>
+              <span class="bar bar-2"></span>
+              <span class="bar bar-3"></span>
+              <span class="bar bar-4"></span>
+              <span class="bar bar-5"></span>
+              <span class="bar bar-6"></span>
+              <span class="bar bar-7"></span>
+              <span class="bar bar-8"></span>
+            </div>
+
+            <div class="voice-mic-indicator" id="dexter-mic-indicator">
+              <span class="mic-status-text" id="dexter-mic-status">Tap Microphone or Select Command</span>
+            </div>
+          </div>
+
+          <!-- Quick Action Chips -->
+          <div class="command-chips-label">RECOMMENDED COMMANDS:</div>
+          <div class="command-chips-row">
+            <button class="cmd-chip" data-cmd="Start mission">Start mission</button>
+            <button class="cmd-chip" data-cmd="Show risk">Show risk</button>
+            <button class="cmd-chip" data-cmd="Where are the victims?">Where are the victims?</button>
+            <button class="cmd-chip" data-cmd="Why is this zone high risk?">Why is this zone high risk?</button>
+            <button class="cmd-chip" data-cmd="Deploy resources">Deploy resources</button>
+            <button class="cmd-chip" data-cmd="Summarize mission">Summarize mission</button>
+            <button class="cmd-chip" data-cmd="Pause mission">Pause mission</button>
+            <button class="cmd-chip" data-cmd="Translate report to Tamil">Translate report</button>
+          </div>
+
+          <!-- Voice / Text Input Bar -->
+          <div class="dexter-input-bar">
+            <button id="btn-dexter-listen" class="btn-mic-toggle" title="Toggle Voice Recognition">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            </button>
+            <input type="text" id="dexter-text-input" class="tactical-input" placeholder="Type or speak a command...">
+            <button id="btn-dexter-send" class="btn-send-cmd">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 2: HITL / COMMANDER DECISION SCREEN (Human-in-the-Loop) -->
+    <div id="hitl-decision-modal" class="tactical-modal hidden">
+      <div class="modal-backdrop" id="hitl-backdrop"></div>
+      <div class="modal-sheet-dialog hitl-dialog">
+        <div class="hitl-alert-header">
+          <div class="hitl-danger-icon">⚠️</div>
+          <div>
+            <div class="hitl-title">DECISION REQUIRED</div>
+            <div class="hitl-sub">CRITICAL HUMAN-IN-THE-LOOP AUTHORIZATION</div>
+          </div>
+          <button id="btn-close-hitl" class="dialog-close-btn">&times;</button>
+        </div>
+
+        <div class="hitl-body">
+          <div class="hitl-zone-box">
+            <span class="hz-tag">INCIDENT ZONE 04</span>
+            <div class="hz-title">HIGH-RISK ZONE DETECTED</div>
+          </div>
+
+          <div class="hitl-matrix">
+            <div class="hm-item">
+              <span class="hm-label">Risk Confidence</span>
+              <span class="hm-val text-crimson">91%</span>
+            </div>
+            <div class="hm-item">
+              <span class="hm-label">Slope Hazard</span>
+              <span class="hm-val text-amber">CRITICAL</span>
+            </div>
+            <div class="hm-item">
+              <span class="hm-label">Victim Conf</span>
+              <span class="hm-val text-cyan">94%</span>
+            </div>
+          </div>
+
+          <div class="hitl-section">
+            <div class="hs-label">RECOMMENDED ACTION</div>
+            <div class="hs-recommendation-box">
+              Deploy Rescue Team Alpha along Northern Ridge trail with specialized shoring gear and HAZMAT gas respirators.
+            </div>
+          </div>
+
+          <div class="hitl-section">
+            <div class="hs-label">AI ORCHESTRATION REASONING</div>
+            <div class="hs-reasoning-box">
+              Structural instability + thermal victim signature detected at Grid KF-29. GPR scanning detected underground void collapse risk within 18 minutes. Toxic gas plume currently 74 ppm.
+            </div>
+          </div>
+
+          <!-- Evidence Drawer Accordion -->
+          <div class="evidence-accordion">
+            <button id="btn-toggle-evidence" class="evidence-toggle-btn">
+              <span>🔍 Review Sensor Evidence & Thermal Scan</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div id="evidence-drawer" class="evidence-drawer hidden">
+              <div class="evidence-grid">
+                <div class="evidence-item">
+                  <div class="ev-tag">FLIR Lepton Thermal</div>
+                  <div class="ev-sim-frame thermal-sim">
+                    <div class="thermal-hotspot">36.8°C (Human Signature)</div>
+                  </div>
+                </div>
+                <div class="evidence-item">
+                  <div class="ev-tag">GPR Void Profile</div>
+                  <div class="ev-sim-frame gpr-sim">
+                    <div class="gpr-layer">Depth: 2.4m • Cavitation 62%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons: Approve, Reject, Stand By -->
+          <div class="hitl-actions-grid">
+            <button id="btn-hitl-approve" class="btn-tactical btn-hitl-approve">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>APPROVE & DISPATCH</span>
+            </button>
+            <button id="btn-hitl-reject" class="btn-tactical btn-hitl-reject">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <span>REJECT ACTION</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="toast-container"></div>
+
+  </div>
+
+  <!-- Leaflet Library -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- Main Application Script -->
+</body>
+</html>
