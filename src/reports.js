@@ -100,7 +100,7 @@ export class ReportsController {
       <div class="mission-row-card" data-mission-id="${m.id}">
         <div class="mr-info">
           <span class="mr-title">${m.name} (${m.id})</span>
-          <span class="mr-meta">📍 ${m.location} • ⏱️ ${m.time} • 🧍 ${m.victims} Victims</span>
+          <span class="mr-meta"><span class="symbol-pin" aria-hidden="true"></span> ${m.location} <span class="meta-separator">•</span> <span class="symbol-clock" aria-hidden="true"></span> ${m.time} <span class="meta-separator">•</span> <span class="symbol-person" aria-hidden="true"></span> ${m.victims} Victims</span>
         </div>
         <span class="mr-badge ${m.status === 'IN PROGRESS' ? 'badge-emerald' : 'badge-cyan'}">${m.status}</span>
       </div>

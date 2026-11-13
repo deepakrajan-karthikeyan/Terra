@@ -50,7 +50,7 @@ class InzoraTerraApp {
     window.showToast = (msg, type) => this.showToast(msg, type);
     window.setReportLanguage = (lang) => reports.setLanguage(lang);
 
-    console.log("⚡ Inzora Terra Mobile Command Center Online.");
+    console.log("Inzora Terra Mobile Command Center Online.");
   }
 
   // 1. Bottom Navigation Tabs (5 Primary Tabs)
@@ -318,12 +318,8 @@ class InzoraTerraApp {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     
-    let icon = '⚡';
-    if (type === 'success') icon = '✅';
-    if (type === 'error') icon = '⚠️';
-    if (type === 'info') icon = 'ℹ️';
-
-    toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+    const icon = type === 'success' ? 'OK' : type === 'error' ? '!' : 'i';
+    toast.innerHTML = `<span class="toast-symbol toast-symbol-${type}">${icon}</span><span>${message}</span>`;
     container.appendChild(toast);
 
     setTimeout(() => {

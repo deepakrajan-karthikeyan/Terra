@@ -8,13 +8,13 @@ import { audioFx } from './audio.js';
 export class AgentsController {
   constructor() {
     this.timelineSteps = [
-      { time: '09:42:11', event: 'Telemetry Stream Received', desc: 'Dexter MK-IV synced 12/12 sensor packets over LoRa mesh link', status: 'done', icon: '📡' },
-      { time: '09:42:12', event: 'Risk Agent Triggered', desc: 'Evaluating slope gradient 38.4°, moisture index 0.88 & gas concentration', status: 'done', icon: '⚡' },
-      { time: '09:42:15', event: 'Risk Assessment Completed', desc: 'High risk flag raised (91% confidence). Active slope slip detected', status: 'done', icon: '⚠️' },
-      { time: '09:42:16', event: 'Victim Detection Agent Started', desc: 'Cross-referencing FLIR Lepton radiometric thermal data & acoustic sensors', status: 'done', icon: '🔍' },
-      { time: '09:42:19', event: 'Victim Signatures Confirmed', desc: '3 living victims mapped with vital probabilities (94%, 88%, 76%)', status: 'done', icon: '🧍' },
-      { time: '09:42:20', event: 'Resource Agent Activated', desc: 'Calculating collision-free extraction routes bypassing toxic gas plume', status: 'current', icon: '🚑' },
-      { time: '09:42:24', event: 'Commander Decision Required', desc: 'HITL authorization escalated: Team Alpha dispatch pending commander sign-off', status: 'waiting', icon: '🛡️' }
+      { time: '09:42:11', event: 'Telemetry Stream Received', desc: 'Dexter MK-IV synced 12/12 sensor packets over LoRa mesh link', status: 'done', icon: 'SIG' },
+      { time: '09:42:12', event: 'Risk Agent Triggered', desc: 'Evaluating slope gradient 38.4°, moisture index 0.88 & gas concentration', status: 'done', icon: 'RISK' },
+      { time: '09:42:15', event: 'Risk Assessment Completed', desc: 'High risk flag raised (91% confidence). Active slope slip detected', status: 'done', icon: 'WARN' },
+      { time: '09:42:16', event: 'Victim Detection Agent Started', desc: 'Cross-referencing FLIR Lepton radiometric thermal data & acoustic sensors', status: 'done', icon: 'SCAN' },
+      { time: '09:42:19', event: 'Victim Signatures Confirmed', desc: '3 living victims mapped with vital probabilities (94%, 88%, 76%)', status: 'done', icon: 'LIFE' },
+      { time: '09:42:20', event: 'Resource Agent Activated', desc: 'Calculating collision-free extraction routes bypassing toxic gas plume', status: 'current', icon: 'AID' },
+      { time: '09:42:24', event: 'Commander Decision Required', desc: 'HITL authorization escalated: Team Alpha dispatch pending commander sign-off', status: 'waiting', icon: 'LOCK' }
     ];
   }
 

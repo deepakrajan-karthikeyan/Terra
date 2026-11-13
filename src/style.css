@@ -1,34 +1,34 @@
 /* ==========================================================================
    INZORA TERRA — TACTICAL MOBILE RESCUE COMMAND CENTER
    Aesthetic: Military HUD / Glassmorphism / Cyber-Tactical Ops
-   Colors: Midnight Carbon (#0a0d14), Neon Emerald (#10b981),
-           Rescue Amber (#f59e0b), Crimson (#ef4444), Cyan HUD (#06b6d4)
+   Colors: Deep Navy (#08111f), Signal Teal (#22d3c5),
+           Rescue Amber (#f4b860), Crimson (#f26b72), Sky HUD (#60a5fa)
    ========================================================================== */
 
 :root {
-  --bg-primary: #0a0d14;
-  --bg-secondary: #111726;
-  --bg-card: rgba(17, 24, 39, 0.78);
-  --bg-card-hover: rgba(26, 36, 56, 0.85);
-  --bg-glass: rgba(15, 23, 42, 0.72);
-  --bg-glass-strong: rgba(10, 15, 26, 0.92);
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-hud: rgba(6, 182, 212, 0.28);
-  --border-glow: rgba(16, 185, 129, 0.4);
+  --bg-primary: #08111f;
+  --bg-secondary: #0d1b2d;
+  --bg-card: rgba(14, 30, 49, 0.82);
+  --bg-card-hover: rgba(20, 42, 65, 0.92);
+  --bg-glass: rgba(10, 28, 46, 0.78);
+  --bg-glass-strong: rgba(6, 18, 32, 0.95);
+  --border-subtle: rgba(148, 203, 225, 0.14);
+  --border-hud: rgba(96, 165, 250, 0.36);
+  --border-glow: rgba(34, 211, 197, 0.46);
   
-  --color-emerald: #10b981;
-  --color-emerald-glow: rgba(16, 185, 129, 0.35);
-  --color-cyan: #06b6d4;
-  --color-cyan-glow: rgba(6, 182, 212, 0.35);
-  --color-amber: #f59e0b;
-  --color-amber-glow: rgba(245, 158, 11, 0.35);
-  --color-crimson: #ef4444;
-  --color-crimson-glow: rgba(239, 68, 68, 0.4);
-  --color-purple: #a855f7;
+  --color-emerald: #22d3c5;
+  --color-emerald-glow: rgba(34, 211, 197, 0.35);
+  --color-cyan: #60a5fa;
+  --color-cyan-glow: rgba(96, 165, 250, 0.35);
+  --color-amber: #f4b860;
+  --color-amber-glow: rgba(244, 184, 96, 0.35);
+  --color-crimson: #f26b72;
+  --color-crimson-glow: rgba(242, 107, 114, 0.4);
+  --color-purple: #a78bfa;
   
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-primary: #edf7fb;
+  --text-secondary: #a8c1d0;
+  --text-muted: #6f8da0;
   
   --font-hud: 'Chakra Petch', sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -60,7 +60,9 @@
 }
 
 body {
-  background-color: #030712;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(34, 211, 197, 0.14), transparent 34rem),
+    #050c17;
   color: var(--text-primary);
   font-family: var(--font-body);
   overflow: hidden;
@@ -150,8 +152,8 @@ body {
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.1);
-  border-radius: 36px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(96, 165, 250, 0.18);
+  border-radius: 30px;
   transition: max-width var(--transition-smooth), border-radius var(--transition-smooth);
 }
 
@@ -183,13 +185,13 @@ body {
 .tactical-header {
   height: var(--header-height);
   min-height: var(--header-height);
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(10, 13, 20, 0.9) 100%);
+  background: linear-gradient(180deg, rgba(13, 31, 50, 0.98) 0%, rgba(6, 18, 32, 0.94) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   align-items: center;
-  justify-content: space-between;
   padding: 0 12px;
   padding-top: max(var(--safe-top), 0px);
   z-index: 50;
@@ -210,10 +212,23 @@ body {
 }
 
 .brand-insignia {
-  font-size: 1.35rem;
-  filter: drop-shadow(0 0 8px var(--color-emerald));
-  animation: pulse-glow 2.5s infinite alternate;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-emerald);
+  border-radius: 6px;
+  position: relative;
+  transform: rotate(45deg);
+  box-shadow: 0 0 12px var(--color-emerald-glow);
+  animation: insignia-float 2.5s ease-in-out infinite;
   line-height: 1;
+}
+
+.brand-insignia::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 2px;
+  background: var(--color-emerald);
 }
 
 .brand-text {
@@ -226,7 +241,7 @@ body {
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: 1.2px;
-  background: linear-gradient(90deg, #34d399, #06b6d4);
+  background: linear-gradient(90deg, #5eead4, #60a5fa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1.2;
@@ -586,6 +601,13 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Preserve each section's intrinsic height so stacked dashboard cards never
+   collapse into one another when the viewport is shorter than the content. */
+.screen-scroll-container > * {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
 .screen-scroll-container::-webkit-scrollbar {
   width: 4px;
 }
@@ -730,6 +752,10 @@ body {
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
   margin-bottom: 14px;
+}
+
+.readiness-card {
+  flex-shrink: 0;
 }
 
 .readiness-item {
@@ -1256,9 +1282,9 @@ body {
 /* Floating Top Map HUD Controls */
 .map-top-hud {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
+  top: max(12px, var(--safe-top));
+  left: 12px;
+  right: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -1272,12 +1298,14 @@ body {
   align-items: center;
   width: 100%;
   gap: 6px;
+  min-width: 0;
 }
 
 .map-hud-group {
   display: flex;
   gap: 6px;
   pointer-events: auto;
+  min-width: 0;
 }
 
 .map-hud-btn {
@@ -1331,6 +1359,7 @@ body {
   backdrop-filter: blur(14px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
   gap: 6px;
+  min-height: 42px;
 }
 
 .search-lens-icon {
@@ -1556,10 +1585,10 @@ body {
    ========================================================================== */
 .bottom-mission-sheet {
   position: absolute;
-  bottom: calc(var(--bottom-bar-height) + var(--safe-bottom) - 4px);
+  bottom: calc(var(--bottom-bar-height) + var(--safe-bottom));
   left: 0;
   right: 0;
-  background: rgba(10, 15, 26, 0.94);
+  background: rgba(7, 17, 30, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid rgba(6, 182, 212, 0.4);
@@ -1574,11 +1603,12 @@ body {
 }
 
 .bottom-mission-sheet.peek {
-  height: 145px;
+  height: 146px;
 }
 
 .bottom-mission-sheet.expanded {
-  height: 70%;
+  height: calc(100% - var(--bottom-bar-height) - var(--safe-bottom));
+  max-height: none;
 }
 
 .sheet-drag-handle-bar {
@@ -1597,7 +1627,7 @@ body {
 }
 
 .sheet-peek-content {
-  padding: 0 16px 12px 16px;
+  padding: 0 16px 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -1668,10 +1698,16 @@ body {
 .sheet-expanded-body {
   flex: 1;
   overflow-y: auto;
-  padding: 12px 16px;
+  min-height: 0;
+  padding: 10px 16px 16px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
+  background: rgba(7, 17, 30, 0.98);
+}
+
+.sheet-section {
+  flex: 0 0 auto;
 }
 
 .sheet-section-title {
@@ -1679,14 +1715,14 @@ body {
   font-size: 0.75rem;
   letter-spacing: 1px;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .hazard-summary-card {
   background: rgba(17, 24, 39, 0.6);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
-  padding: 10px;
+  padding: 9px 10px;
 }
 
 .hazard-badge-strip {
@@ -1778,7 +1814,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 6px;
+  margin-top: 2px;
 }
 
 /* ==========================================================================
@@ -2544,7 +2580,7 @@ input:checked + .slider:before {
 .floating-dexter-container {
   position: absolute;
   bottom: calc(var(--bottom-bar-height) + var(--safe-bottom) - 22px);
-  left: 50%;
+  left: 41.6667%;
   transform: translateX(-50%);
   z-index: 60;
   pointer-events: auto;
@@ -2621,6 +2657,49 @@ input:checked + .slider:before {
   position: relative;
 }
 
+@media (max-width: 540px) {
+  .screen-scroll-container {
+    padding: 14px 8px calc(var(--bottom-bar-height) + var(--safe-bottom) + 24px);
+    gap: 10px;
+  }
+
+  .tactical-card {
+    padding: 14px 12px;
+  }
+
+  .map-top-hud {
+    left: 8px;
+    right: 8px;
+  }
+
+  .map-hud-row {
+    align-items: flex-start;
+  }
+
+  .map-hud-group {
+    flex-wrap: wrap;
+  }
+
+  .map-hud-btn {
+    min-height: 38px;
+    padding: 7px 9px;
+  }
+
+  .map-search-box {
+    min-height: 44px;
+    padding: 5px 8px;
+  }
+
+  .bottom-mission-sheet {
+    border-radius: 20px 20px 0 0;
+  }
+
+  .nav-center-spacer {
+    width: auto;
+    flex-basis: auto;
+  }
+}
+
 .nav-tab {
   flex: 1;
   min-width: 0;
@@ -2672,8 +2751,8 @@ input:checked + .slider:before {
 }
 
 .nav-center-spacer {
-  width: 52px;
-  flex-shrink: 0;
+  width: auto;
+  flex: 0 0 auto;
 }
 
 /* ==========================================================================
@@ -3336,6 +3415,608 @@ input:checked + .slider:before {
 @keyframes alert-shake {
   0% { transform: rotate(-6deg); }
   100% { transform: rotate(6deg); }
+}
+
+/* ==========================================================================
+   SIGNAL MARKERS
+   Geometric markers replace platform-dependent emoji glyphs and stay aligned
+   consistently across browsers and the Android WebView.
+   ========================================================================== */
+.symbol-device,
+.symbol-alert,
+.symbol-flag,
+.symbol-battery,
+.symbol-clock,
+.symbol-pin,
+.symbol-search,
+.symbol-robot,
+.symbol-globe,
+.symbol-signal,
+.symbol-person,
+.symbol-cross,
+.symbol-replay,
+.symbol-home,
+.symbol-map,
+.symbol-report,
+.symbol-satellite,
+.symbol-thermal,
+.symbol-route,
+.symbol-target,
+.symbol-drone {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  flex: 0 0 auto;
+  position: relative;
+  vertical-align: -0.15em;
+  color: currentColor;
+}
+
+.symbol-device { border: 1.5px solid currentColor; border-radius: 3px; }
+.symbol-device::after { content: ''; position: absolute; width: 3px; height: 1px; bottom: 2px; left: 50%; transform: translateX(-50%); background: currentColor; }
+.symbol-alert { border: 1.5px solid currentColor; border-radius: 50%; }
+.symbol-alert::before { content: ''; position: absolute; width: 2px; height: 45%; left: 50%; top: 20%; transform: translateX(-50%); background: currentColor; }
+.symbol-alert::after { content: ''; position: absolute; width: 2px; height: 2px; left: 50%; bottom: 18%; transform: translateX(-50%); border-radius: 50%; background: currentColor; }
+.symbol-flag::before { content: ''; position: absolute; left: 2px; top: 1px; height: 90%; border-left: 1.5px solid currentColor; }
+.symbol-flag::after { content: ''; position: absolute; left: 3px; top: 2px; width: 70%; height: 45%; background: currentColor; clip-path: polygon(0 0, 100% 0, 72% 50%, 100% 100%, 0 100%); }
+.symbol-battery { border: 1.5px solid currentColor; border-radius: 2px; }
+.symbol-battery::before { content: ''; position: absolute; right: -3px; top: 28%; height: 44%; border-right: 2px solid currentColor; }
+.symbol-battery::after { content: ''; position: absolute; inset: 3px 4px 3px 3px; background: currentColor; }
+.symbol-clock { border: 1.5px solid currentColor; border-radius: 50%; }
+.symbol-clock::after { content: ''; position: absolute; left: 50%; top: 22%; width: 1.5px; height: 35%; background: currentColor; transform-origin: bottom; transform: rotate(35deg); }
+.symbol-pin { border: 1.5px solid currentColor; border-radius: 50% 50% 50% 0; transform: rotate(-45deg) scale(.8); }
+.symbol-pin::after { content: ''; position: absolute; inset: 35%; border-radius: 50%; background: currentColor; }
+.symbol-search { border: 1.5px solid currentColor; border-radius: 50%; width: .82em; height: .82em; margin-right: .18em; }
+.symbol-search::after { content: ''; position: absolute; width: 55%; border-top: 1.5px solid currentColor; right: -42%; bottom: -18%; transform: rotate(45deg); }
+.symbol-robot { border: 1.5px solid currentColor; border-radius: 3px; }
+.symbol-robot::before { content: '••'; position: absolute; left: 50%; top: 8%; transform: translateX(-50%); font-size: .65em; letter-spacing: .12em; }
+.symbol-robot::after { content: ''; position: absolute; width: 35%; left: 32%; bottom: 18%; border-top: 1.5px solid currentColor; }
+.symbol-globe { border: 1.5px solid currentColor; border-radius: 50%; }
+.symbol-globe::before { content: ''; position: absolute; inset: 1px 35%; border-left: 1px solid currentColor; border-right: 1px solid currentColor; border-radius: 50%; }
+.symbol-globe::after { content: ''; position: absolute; left: 12%; right: 12%; top: 48%; border-top: 1px solid currentColor; }
+.symbol-signal::before { content: '⌁'; position: absolute; inset: -0.28em 0 0; font-size: 1.35em; font-weight: 700; }
+.symbol-person::before { content: ''; position: absolute; width: 34%; height: 34%; left: 33%; top: 4%; border: 1.5px solid currentColor; border-radius: 50%; }
+.symbol-person::after { content: ''; position: absolute; width: 68%; height: 42%; left: 16%; bottom: 3%; border: 1.5px solid currentColor; border-radius: 50% 50% 2px 2px; }
+.symbol-cross::before,
+.symbol-cross::after { content: ''; position: absolute; background: currentColor; left: 42%; top: 10%; width: 16%; height: 80%; }
+.symbol-cross::after { transform: rotate(90deg); }
+.symbol-replay::before { content: '↶'; position: absolute; inset: -0.2em 0 0; font-size: 1.35em; }
+.symbol-home::before { content: ''; position: absolute; width: 65%; height: 55%; left: 17%; bottom: 5%; border: 1.5px solid currentColor; border-top: 0; }
+.symbol-home::after { content: ''; position: absolute; width: 65%; height: 65%; left: 17%; top: 5%; border-left: 1.5px solid currentColor; border-top: 1.5px solid currentColor; transform: rotate(45deg) scale(.7); }
+.symbol-map { border: 1.5px solid currentColor; border-radius: 2px; transform: skewY(-8deg); }
+.symbol-map::after { content: ''; position: absolute; left: 48%; top: 0; height: 100%; border-left: 1px solid currentColor; }
+.symbol-report { border: 1.5px solid currentColor; border-radius: 2px; }
+.symbol-report::after { content: ''; position: absolute; left: 25%; right: 20%; top: 35%; border-top: 1px solid currentColor; box-shadow: 0 4px currentColor; }
+.symbol-satellite::before { content: '✦'; font-size: 1.1em; }
+.symbol-thermal { border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 25%, transparent); }
+.symbol-route { border-top: 2px dashed currentColor; transform: rotate(-15deg); }
+.symbol-target { border: 1.5px solid currentColor; border-radius: 50%; }
+.symbol-target::after { content: ''; position: absolute; inset: 35%; background: currentColor; border-radius: 50%; }
+.symbol-drone::before { content: '◇'; font-size: 1.2em; }
+
+.card-icon,
+.stat-icon,
+.dialog-icon,
+.agent-badge-icon,
+.nav-icon,
+.fi-icon,
+.hitl-banner-icon,
+.dexter-icon { color: var(--color-cyan); }
+
+.timeline-bullet {
+  min-width: 46px;
+  min-height: 28px;
+  padding: 5px 4px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: .55rem;
+  font-weight: 700;
+  letter-spacing: .4px;
+  text-align: center;
+  color: var(--color-cyan);
+  background: rgba(96, 165, 250, .1);
+  border: 1px solid rgba(96, 165, 250, .28);
+}
+
+.map-marker-glyph {
+  color: #fff;
+  width: 1.1em;
+  height: 1.1em;
+}
+
+.toast-symbol {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  font-weight: 700;
+}
+
+.meta-separator { color: var(--text-muted); margin: 0 3px; }
+
+@keyframes insignia-float {
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50% { transform: rotate(45deg) translateY(-2px); }
+}
+
+/* ==========================================================================
+   FINAL PURPLE / WHITE / BLACK THEME
+   ========================================================================== */
+:root {
+  --bg-primary: #09070f;
+  --bg-secondary: #120d1c;
+  --bg-card: rgba(18, 13, 28, 0.94);
+  --bg-card-hover: rgba(31, 20, 49, 0.98);
+  --bg-glass: rgba(12, 9, 20, 0.92);
+  --bg-glass-strong: rgba(7, 5, 12, 0.98);
+  --border-subtle: rgba(255, 255, 255, 0.13);
+  --border-hud: rgba(168, 85, 247, 0.5);
+  --border-glow: rgba(192, 132, 252, 0.55);
+  --color-emerald: #c084fc;
+  --color-emerald-glow: rgba(192, 132, 252, 0.38);
+  --color-cyan: #a78bfa;
+  --color-cyan-glow: rgba(167, 139, 250, 0.38);
+  --color-amber: #e9d5ff;
+  --color-amber-glow: rgba(233, 213, 255, 0.3);
+  --color-crimson: #f0abfc;
+  --color-crimson-glow: rgba(240, 171, 252, 0.35);
+  --color-purple: #c084fc;
+  --text-primary: #ffffff;
+  --text-secondary: #ddd6fe;
+  --text-muted: #a39ab5;
+}
+
+body {
+  background:
+    radial-gradient(circle at 50% -12%, rgba(168, 85, 247, 0.2), transparent 34rem),
+    #030207;
+}
+
+.app-root {
+  background: var(--bg-primary);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(192, 132, 252, 0.25);
+}
+
+.tactical-header,
+.bottom-nav-bar {
+  background: linear-gradient(180deg, rgba(20, 12, 31, 0.98), rgba(7, 5, 12, 0.98));
+  border-color: rgba(192, 132, 252, 0.2);
+}
+
+.tactical-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.header-left,
+.header-center,
+.header-right,
+.app-badge,
+.brand-text {
+  min-width: 0;
+}
+
+.app-badge {
+  max-width: 100%;
+}
+
+.brand-text {
+  overflow: hidden;
+}
+
+.brand-title,
+.brand-sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-center {
+  justify-self: center;
+}
+
+.header-right {
+  justify-self: end;
+}
+
+.bottom-nav-bar {
+  background: linear-gradient(0deg, rgba(7, 5, 12, 0.99), rgba(20, 12, 31, 0.98));
+}
+
+.brand-title {
+  background: linear-gradient(90deg, #ffffff, #c084fc);
+}
+
+.brand-insignia,
+.commander-avatar-btn,
+.floating-dexter-btn {
+  border-color: var(--color-purple);
+  box-shadow: 0 0 16px rgba(192, 132, 252, 0.42);
+}
+
+.brand-insignia::after {
+  background: var(--color-purple);
+}
+
+.connection-status,
+.map-live-tag,
+.btn-map-hud-mini,
+.map-hud-btn,
+.map-search-box,
+.btn-pill-toggle,
+.btn-outline-cyan,
+.btn-mini-cyan {
+  border-color: rgba(192, 132, 252, 0.52);
+  color: #e9d5ff;
+  background-color: rgba(124, 58, 237, 0.14);
+}
+
+.tactical-card,
+.agent-card,
+.settings-group,
+.hazard-summary-card {
+  background: linear-gradient(145deg, rgba(25, 16, 39, 0.96), rgba(10, 7, 16, 0.96));
+  border-color: rgba(192, 132, 252, 0.2);
+}
+
+.tactical-card::before {
+  background: linear-gradient(90deg, transparent, rgba(192, 132, 252, 0.8), transparent);
+}
+
+.btn-primary-start {
+  background: linear-gradient(135deg, #7e22ce, #c084fc);
+  color: #ffffff;
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.38);
+}
+
+.btn-primary-start:hover {
+  background: linear-gradient(135deg, #9333ea, #d8b4fe);
+}
+
+.btn-danger-abort,
+.chip-danger,
+.badge-crimson {
+  color: #f0abfc;
+  border-color: rgba(240, 171, 252, 0.5);
+  background: rgba(192, 38, 211, 0.13);
+}
+
+.readiness-item,
+.stat-pill,
+.mission-row-card,
+.tele-item,
+.sensor-health-row,
+.agent-metrics-row,
+.timeline-content,
+.sheet-metrics-row,
+.victim-mini-item,
+.emergency-bar-box {
+  background: rgba(0, 0, 0, 0.42);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.readiness-item:focus-within,
+.mission-row-card:hover,
+.stat-pill:hover,
+.btn-sec-action:hover {
+  border-color: rgba(192, 132, 252, 0.62);
+}
+
+.home-map-container,
+.mission-map {
+  background: #08060b;
+  border-color: rgba(192, 132, 252, 0.48);
+}
+
+.bottom-mission-sheet,
+.sheet-expanded-body {
+  background: rgba(8, 6, 12, 0.99);
+  border-color: rgba(192, 132, 252, 0.5);
+}
+
+.nav-tab.active,
+.nav-tab.active .nav-icon,
+.link-btn,
+.settings-group-title,
+.hero-title,
+.section-title,
+.stat-num,
+.sm-val,
+.card-icon,
+.agent-badge-icon,
+.dexter-tag,
+.dialog-icon {
+  color: #c084fc;
+}
+
+.nav-tab .nav-icon,
+.nav-tab .nav-label {
+  color: #b8acc8;
+}
+
+.nav-tab.active .nav-icon {
+  filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.85));
+}
+
+.symbol-device,
+.symbol-alert,
+.symbol-flag,
+.symbol-battery,
+.symbol-clock,
+.symbol-pin,
+.symbol-search,
+.symbol-robot,
+.symbol-globe,
+.symbol-signal,
+.symbol-person,
+.symbol-cross,
+.symbol-replay,
+.symbol-home,
+.symbol-map,
+.symbol-report,
+.symbol-satellite,
+.symbol-thermal,
+.symbol-route,
+.symbol-target,
+.symbol-drone {
+  color: currentColor;
+}
+
+.floating-dexter-btn {
+  background: linear-gradient(135deg, #09070f, #241134);
+}
+
+.floating-dexter-btn .dexter-icon {
+  color: #ffffff;
+}
+
+.dexter-ring-pulse {
+  border-color: #c084fc;
+}
+
+.map-viewport-wrapper,
+.screens-viewport {
+  min-width: 0;
+}
+
+.screen-scroll-container {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.screen-hero-bar,
+.card-header-bar,
+.section-header,
+.sheet-main-status,
+.agent-card-header {
+  min-height: 32px;
+}
+
+.tactical-card,
+.agent-card,
+.settings-group {
+  width: 100%;
+}
+
+.mr-info,
+.v-info,
+.timeline-content {
+  min-width: 0;
+}
+
+.mr-title,
+.v-name,
+.tc-event,
+.tc-desc {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 540px) {
+  .screen-scroll-container {
+    max-width: none;
+  }
+
+  @media (max-width: 600px) {
+    .tactical-header {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 6px;
+    }
+
+    .header-center {
+      display: none;
+    }
+
+    .brand-title {
+      font-size: 0.84rem;
+      letter-spacing: 0.7px;
+    }
+
+    .brand-sub {
+      font-size: 0.54rem;
+      letter-spacing: 0.45px;
+    }
+
+    .header-right {
+      gap: 5px;
+    }
+
+    .btn-install-hud {
+      padding: 6px 7px;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .btn-install-hud {
+      display: none;
+    }
+
+    .brand-sub {
+      display: none;
+    }
+  }
+
+  /* Header alignment reset: keep brand, live status, and actions in separate
+     non-overlapping zones at every viewport width. */
+  .tactical-header {
+    height: 64px;
+    min-height: 64px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 10px;
+    padding: max(var(--safe-top), 0px) 14px 0;
+    overflow: hidden;
+  }
+
+  .header-left {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .app-badge {
+    min-width: 0;
+    max-width: 100%;
+    gap: 10px;
+  }
+
+  .brand-insignia {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+  }
+
+  .brand-text {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .brand-title {
+    display: block;
+    font-size: 0.9rem;
+    line-height: 1.15;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+  }
+
+  .brand-sub {
+    display: block;
+    font-size: 0.52rem;
+    line-height: 1.15;
+    letter-spacing: 0.55px;
+    white-space: nowrap;
+  }
+
+  .header-center {
+    min-width: max-content;
+    justify-self: center;
+  }
+
+  .connection-status {
+    height: 30px;
+    padding: 0 8px;
+    gap: 5px;
+    border-radius: 8px;
+  }
+
+  .header-right {
+    min-width: max-content;
+    justify-self: end;
+    gap: 6px;
+  }
+
+  .btn-install-hud,
+  .icon-hud-btn,
+  .commander-avatar-btn {
+    height: 32px;
+  }
+
+  .btn-install-hud {
+    padding: 0 9px;
+  }
+
+  @media (max-width: 600px) {
+    .tactical-header {
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 8px;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    .header-center {
+      display: flex;
+      grid-column: auto;
+      grid-row: auto;
+      position: static;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .header-right {
+      gap: 5px;
+    }
+
+    .btn-install-hud {
+      padding: 0 8px;
+    }
+
+    .install-btn-text {
+      display: inline;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .tactical-header {
+      grid-template-columns: minmax(0, 1fr) auto auto;
+    }
+
+    .brand-title {
+      font-size: 0.82rem;
+    }
+
+    .brand-sub,
+    .install-btn-text {
+      display: none;
+    }
+
+    .btn-install-hud {
+      width: 32px;
+      padding: 0;
+      justify-content: center;
+    }
+  }
+
+  .readiness-grid,
+  .telemetry-grid {
+    gap: 7px;
+  }
+
+  .readiness-item {
+    padding: 9px 8px;
+  }
+
+  .mission-row-card {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .mr-badge {
+    flex-shrink: 0;
+  }
+}
+
+@media (min-width: 541px) {
+  .screen-scroll-container { padding-left: 20px; padding-right: 20px; }
+  .tactical-header { padding-left: 20px; padding-right: 20px; }
+  .bottom-nav-bar { padding-left: 12px; padding-right: 12px; }
 }
 
 /* Tactical Color Utilities */

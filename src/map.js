@@ -173,7 +173,7 @@ export class MissionMapController {
     this.setMiniTileStyle(this.miniTileMode);
     const btn = document.getElementById('btn-home-map-tile');
     if (btn) {
-      btn.innerHTML = this.miniTileMode === 'dark' ? '<span>🛰️ SATELLITE</span>' : '<span>🗺️ TACTICAL</span>';
+      btn.innerHTML = this.miniTileMode === 'dark' ? '<span><span class="symbol-satellite"></span> SATELLITE</span>' : '<span><span class="symbol-map"></span> TACTICAL</span>';
     }
     audioFx.playClick();
   }
@@ -225,7 +225,7 @@ export class MissionMapController {
         <div style="position:relative; width:26px; height:26px; display:flex; align-items:center; justify-content:center;">
           <div style="position:absolute; width:26px; height:26px; border-radius:50%; background:rgba(6,182,212,0.4); animation:pulse-ring 1.8s infinite;"></div>
           <div style="background:#0284c7; border:2px solid #38bdf8; color:#fff; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; box-shadow:0 0 10px #06b6d4;">
-            🤖
+            <span class="map-marker-glyph symbol-robot"></span>
           </div>
         </div>
       `,
@@ -390,7 +390,7 @@ export class MissionMapController {
         className: 'search-target-pin',
         html: `
           <div style="background:rgba(6,182,212,0.9); border:2px solid #fff; color:#fff; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 16px #06b6d4; font-size:14px;">
-            🎯
+            <span class="map-marker-glyph symbol-target"></span>
           </div>
         `,
         iconSize: [30, 30],
@@ -412,7 +412,7 @@ export class MissionMapController {
     audioFx.playConfirm();
 
     if (window.showToast) {
-      window.showToast(`🎯 Position Locked: ${label.split(',')[0]}`, 'info');
+      window.showToast(`Position Locked: ${label.split(',')[0]}`, 'info');
     }
   }
 
@@ -445,7 +445,7 @@ export class MissionMapController {
                 <div style="position:relative; width:36px; height:36px; display:flex; align-items:center; justify-content:center;">
                   <div style="position:absolute; width:36px; height:36px; border-radius:50%; background:rgba(16,185,129,0.4); animation:pulse-ring 1.8s infinite;"></div>
                   <div style="background:#10b981; border:2.5px solid #fff; color:#fff; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; box-shadow:0 0 14px rgba(16,185,129,0.8);">
-                    📡
+                    <span class="map-marker-glyph symbol-signal"></span>
                   </div>
                 </div>
               `,
@@ -471,7 +471,7 @@ export class MissionMapController {
 
         audioFx.playConfirm();
         if (window.showToast) {
-          window.showToast(`📍 Live GPS Locked (±${Math.round(acc)}m accuracy)`, 'success');
+          window.showToast(`Live GPS Locked (±${Math.round(acc)}m accuracy)`, 'success');
         }
       },
       (err) => {
@@ -516,7 +516,7 @@ export class MissionMapController {
       html: `
         <div style="display:flex; flex-direction:column; align-items:center;">
           <div style="background:rgba(239,68,68,0.9); border:2px solid #fff; color:#fff; font-family:'Chakra Petch'; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; box-shadow:0 0 10px rgba(239,68,68,0.8); white-space:nowrap;">
-            📍 INCIDENT ZONE 04
+            <span class="symbol-pin"></span> INCIDENT ZONE 04
           </div>
           <div style="width:2px; height:8px; background:#ef4444;"></div>
         </div>
@@ -553,7 +553,7 @@ export class MissionMapController {
       fillOpacity: 0.18
     }).addTo(targetMap);
 
-    poly.bindTooltip("⚠️ High Risk Zone: Active Slope Creep", { sticky: true });
+    poly.bindTooltip("High Risk Zone: Active Slope Creep", { sticky: true });
     this.hazardLayers.push(poly);
   }
 
@@ -565,7 +565,7 @@ export class MissionMapController {
       fillColor: '#ea580c',
       fillOpacity: 0.35
     }).addTo(targetMap);
-    heat1.bindTooltip("🔥 Thermal Core: 52°C Friction Heat", { sticky: true });
+    heat1.bindTooltip("Thermal Core: 52°C Friction Heat", { sticky: true });
     this.thermalLayers.push(heat1);
 
     const heat2 = L.circle([10.9599, 78.0761], {
@@ -575,7 +575,7 @@ export class MissionMapController {
       fillColor: '#f97316',
       fillOpacity: 0.3
     }).addTo(targetMap);
-    heat2.bindTooltip("🔥 Thermal Anomaly: 44°C", { sticky: true });
+    heat2.bindTooltip("Thermal Anomaly: 44°C", { sticky: true });
     this.thermalLayers.push(heat2);
   }
 
@@ -595,7 +595,7 @@ export class MissionMapController {
       fillOpacity: 0.28
     }).addTo(targetMap);
 
-    gasPoly.bindTooltip("☣️ Toxic Plume: H2S/CO (74 ppm) - Respirators Required", { sticky: true });
+    gasPoly.bindTooltip("Toxic Plume: H2S/CO (74 ppm) - Respirators Required", { sticky: true });
     this.gasLayers.push(gasPoly);
   }
 
@@ -610,7 +610,7 @@ export class MissionMapController {
       dashArray: '8, 8',
       opacity: 0.85
     }).addTo(targetMap);
-    blockedRoute.bindTooltip("🚧 Blocked Trail: 350t Debris Collapse", { sticky: true });
+    blockedRoute.bindTooltip("Blocked Trail: 350t Debris Collapse", { sticky: true });
     this.routeLayers.push(blockedRoute);
 
     const safeRoute = L.polyline([
@@ -623,7 +623,7 @@ export class MissionMapController {
       weight: 4,
       opacity: 0.9
     }).addTo(targetMap);
-    safeRoute.bindTooltip("✅ Safe Evacuation Corridor (Team Alpha Recommended)", { sticky: true });
+    safeRoute.bindTooltip("Safe Evacuation Corridor (Team Alpha Recommended)", { sticky: true });
     this.routeLayers.push(safeRoute);
   }
 
@@ -632,7 +632,7 @@ export class MissionMapController {
       className: 'resource-icon-wrap',
       html: `
         <div style="background:#0284c7; border:2px solid #38bdf8; color:#fff; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 12px rgba(2,132,199,0.7); font-size:16px;">
-          🚑
+          <span class="map-marker-glyph symbol-cross"></span>
         </div>
       `,
       iconSize: [34, 34],
@@ -654,7 +654,7 @@ export class MissionMapController {
       className: 'resource-icon-wrap',
       html: `
         <div style="background:#7c3aed; border:2px solid #c084fc; color:#fff; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 12px rgba(124,58,237,0.7); font-size:15px;">
-          🛸
+          <span class="map-marker-glyph symbol-drone"></span>
         </div>
       `,
       iconSize: [32, 32],
@@ -710,7 +710,7 @@ export class MissionMapController {
           <div style="position:relative; display:flex; align-items:center; justify-content:center;">
             <div style="position:absolute; width:30px; height:30px; border-radius:50%; background:${v.color}; opacity:0.3; animation:pulse-ring 1.8s infinite;"></div>
             <div style="background:${v.color}; border:2px solid #fff; color:#fff; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Chakra Petch'; font-size:11px; font-weight:700; box-shadow:0 0 10px ${v.color};">
-              🧍
+              <span class="map-marker-glyph symbol-person"></span>
             </div>
           </div>
         `,
@@ -741,7 +741,7 @@ export class MissionMapController {
         <div style="position:relative; width:44px; height:44px; display:flex; align-items:center; justify-content:center;">
           <div style="position:absolute; width:44px; height:44px; border-radius:50%; border:2px solid #06b6d4; opacity:0.6; animation:pulse-ring 2s infinite;"></div>
           <div style="background:linear-gradient(135deg, #0f172a, #0284c7); border:2.5px solid #06b6d4; color:#fff; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 0 16px rgba(6,182,212,0.8);">
-            🤖
+            <span class="map-marker-glyph symbol-robot"></span>
           </div>
           <div style="position:absolute; top:0; right:0; width:10px; height:10px; border-radius:50%; background:#10b981; border:1.5px solid #fff;"></div>
         </div>

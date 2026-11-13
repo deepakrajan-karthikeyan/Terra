@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0d14">
+  <meta name="theme-color" content="#09070f">
   <meta name="description" content="Inzora Terra — Advanced Mobile Rescue-Mission Command Center and Autonomous Multi-Agent Orchestration System">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,11 +32,7 @@
     <header class="tactical-header">
       <div class="header-left">
         <div class="app-badge">
-          <span class="brand-insignia">⚡</span>
-          <div class="brand-text">
-            <span class="brand-title">INZORA TERRA</span>
-            <span class="brand-sub">TACTICAL OPS v2.4</span>
-          </div>
+          <span class="brand-insignia" aria-hidden="true"></span>
         </div>
       </div>
 
@@ -69,7 +65,7 @@
     <div id="mobile-install-banner" class="mobile-install-banner hidden">
       <div class="banner-inner">
         <div class="banner-badge">
-          <span class="banner-icon">📱</span>
+          <span class="banner-icon symbol-device" aria-hidden="true"></span>
         </div>
         <div class="banner-text">
           <div class="banner-title">INSTALL INZORA TERRA</div>
@@ -85,7 +81,7 @@
     <!-- Global HITL Tactical Banner Alert (Shown when human intervention required) -->
     <div id="hitl-alert-banner" class="hitl-banner hidden">
       <div class="hitl-banner-content">
-        <div class="hitl-banner-icon">⚠️</div>
+        <div class="hitl-banner-icon symbol-alert" aria-hidden="true"></div>
         <div class="hitl-banner-info">
           <div class="hitl-banner-title">DECISION REQUIRED: HIGH-RISK ZONE DETECTED</div>
           <div class="hitl-banner-desc">Risk Conf: 91% • Thermal victim & structural instability in Sector 04</div>
@@ -143,28 +139,28 @@
           <!-- Quick Stats Row -->
           <div class="stats-ribbon">
             <div class="stat-pill">
-              <span class="stat-icon">🚩</span>
+              <span class="stat-icon symbol-flag" aria-hidden="true"></span>
               <div class="stat-data">
                 <span class="stat-num" id="stat-active-missions">01</span>
                 <span class="stat-label">Active Mission</span>
               </div>
             </div>
             <div class="stat-pill">
-              <span class="stat-icon">🔋</span>
+              <span class="stat-icon symbol-battery" aria-hidden="true"></span>
               <div class="stat-data">
                 <span class="stat-num" id="stat-rover-battery">82%</span>
                 <span class="stat-label">Battery Level</span>
               </div>
             </div>
             <div class="stat-pill">
-              <span class="stat-icon">⚠️</span>
+              <span class="stat-icon symbol-alert" aria-hidden="true"></span>
               <div class="stat-data">
                 <span class="stat-num text-amber" id="stat-alerts">02</span>
                 <span class="stat-label">Active Alerts</span>
               </div>
             </div>
             <div class="stat-pill">
-              <span class="stat-icon">⏱️</span>
+              <span class="stat-icon symbol-clock" aria-hidden="true"></span>
               <div class="stat-data">
                 <span class="stat-num" id="stat-mission-elapsed">34m</span>
                 <span class="stat-label">Elapsed Time</span>
@@ -194,10 +190,10 @@
                 </div>
                 <div class="home-map-quick-actions">
                   <button id="btn-home-map-tile" class="btn-map-hud-mini" title="Toggle Satellite / Dark Mode">
-                    <span>🛰️ SATELLITE</span>
+                    <span><span class="symbol-satellite" aria-hidden="true"></span> SATELLITE</span>
                   </button>
                   <button id="btn-home-map-recenter" class="btn-map-hud-mini" title="Center Rover Dexter">
-                    <span>🤖 RECENTER</span>
+                    <span><span class="symbol-robot" aria-hidden="true"></span> RECENTER</span>
                   </button>
                 </div>
               </div>
@@ -205,7 +201,7 @@
               <!-- Floating Bottom Location Readout -->
               <div class="home-map-overlay-bottom">
                 <div class="geo-readout">
-                  <span class="geo-icon">📍</span>
+                  <span class="geo-icon symbol-pin" aria-hidden="true"></span>
                   <span id="home-geo-location" class="geo-text">Karur Ridge (10.9601° N, 78.0766° E)</span>
                 </div>
               </div>
@@ -237,9 +233,9 @@
                 High-gradient landslide with suspected buried infrastructure and hazardous gas accumulation. Multi-agent rescue protocol deployed.
               </p>
               <div class="incident-meta-chips">
-                <span class="chip">📍 Karur Ridge (10.9601° N, 78.0766° E)</span>
-                <span class="chip chip-danger">🧍 3 Victims Trapped</span>
-                <span class="chip chip-warning">☣️ Gas 74 ppm</span>
+                <span class="chip"><span class="symbol-pin" aria-hidden="true"></span> Karur Ridge (10.9601° N, 78.0766° E)</span>
+                <span class="chip chip-danger"><span class="symbol-person" aria-hidden="true"></span> 3 Victims Trapped</span>
+                <span class="chip chip-warning"><span class="symbol-alert" aria-hidden="true"></span> Gas 74 ppm</span>
               </div>
             </div>
 
@@ -320,7 +316,7 @@
             <!-- Row 2: Tactical Search Input (OpenStreetMap Nominatim API) -->
             <div class="map-search-bar-wrap">
               <div class="map-search-box">
-                <span class="search-lens-icon">🔍</span>
+                <span class="search-lens-icon symbol-search" aria-hidden="true"></span>
                 <input type="text" id="map-search-input" class="map-search-input" placeholder="Search sector / coords via OpenStreetMap API (e.g. Karur)..." autocomplete="off" />
                 <button id="map-btn-search-clear" class="btn-search-clear hidden" title="Clear">✕</button>
                 <button id="map-btn-search-go" class="btn-search-go" title="Search via Nominatim">SEARCH</button>
@@ -331,13 +327,13 @@
             <!-- Layer Switcher Dropdown (Floating) -->
             <div id="map-layers-panel" class="map-layers-panel hidden">
               <div class="layers-title">TACTICAL OVERLAYS</div>
-              <label class="layer-item"><input type="checkbox" id="layer-chk-rover" checked> <span>🤖 Rover Dexter</span></label>
-              <label class="layer-item"><input type="checkbox" id="layer-chk-victims" checked> <span>🧍 Victims (3 Detected)</span></label>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-rover" checked> <span><span class="symbol-robot" aria-hidden="true"></span> Rover Dexter</span></label>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-victims" checked> <span><span class="symbol-person" aria-hidden="true"></span> Victims (3 Detected)</span></label>
               <label class="layer-item"><input type="checkbox" id="layer-chk-hazards" checked> <span>⚠️ Risk Zones</span></label>
-              <label class="layer-item"><input type="checkbox" id="layer-chk-thermal" checked> <span>🔥 Thermal Anomalies</span></label>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-thermal" checked> <span><span class="symbol-thermal" aria-hidden="true"></span> Thermal Anomalies</span></label>
               <label class="layer-item"><input type="checkbox" id="layer-chk-gas" checked> <span>☣️ Toxic Gas Plume</span></label>
-              <label class="layer-item"><input type="checkbox" id="layer-chk-routes" checked> <span>🚧 Blocked & Safe Routes</span></label>
-              <label class="layer-item"><input type="checkbox" id="layer-chk-resources" checked> <span>🚑 Rescue Resources</span></label>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-routes" checked> <span><span class="symbol-route" aria-hidden="true"></span> Blocked & Safe Routes</span></label>
+              <label class="layer-item"><input type="checkbox" id="layer-chk-resources" checked> <span><span class="symbol-cross" aria-hidden="true"></span> Rescue Resources</span></label>
               <div class="layers-divider"></div>
               <div class="tile-options">
                 <button class="tile-btn active" data-tile="dark">Tactical Dark</button>
@@ -468,7 +464,7 @@
           <div class="tactical-card rover-card">
             <div class="card-header-bar">
               <div class="card-title-with-icon">
-                <span class="card-icon">🤖</span>
+                <span class="card-icon symbol-robot" aria-hidden="true"></span>
                 <span class="card-eyebrow">DEXTER ROVER STATUS</span>
               </div>
               <span class="badge badge-emerald">NAVIGATING</span>
@@ -519,7 +515,7 @@
           <div class="tactical-card env-card">
             <div class="card-header-bar">
               <div class="card-title-with-icon">
-                <span class="card-icon">🌍</span>
+                <span class="card-icon symbol-globe" aria-hidden="true"></span>
                 <span class="card-eyebrow">ENVIRONMENTAL SENSORS</span>
               </div>
               <span class="badge badge-amber">HAZARDS ACTIVE</span>
@@ -589,7 +585,7 @@
           <div class="tactical-card sensors-card">
             <div class="card-header-bar">
               <div class="card-title-with-icon">
-                <span class="card-icon">📡</span>
+                <span class="card-icon symbol-signal" aria-hidden="true"></span>
                 <span class="card-eyebrow">SENSOR HEALTH MATRIX</span>
               </div>
               <span class="badge badge-emerald">12/12 ONLINE</span>
@@ -665,7 +661,7 @@
             <div class="agent-card status-completed">
               <div class="agent-card-header">
                 <div class="agent-id">
-                  <span class="agent-badge-icon">⚠️</span>
+                  <span class="agent-badge-icon symbol-alert" aria-hidden="true"></span>
                   <div>
                     <div class="agent-title">Risk Agent</div>
                     <div class="agent-role">Hazard Assessment & Terrain Dynamics</div>
@@ -710,7 +706,7 @@
             <div class="agent-card status-running">
               <div class="agent-card-header">
                 <div class="agent-id">
-                  <span class="agent-badge-icon">🧍</span>
+                  <span class="agent-badge-icon symbol-person" aria-hidden="true"></span>
                   <div>
                     <div class="agent-title">Victim Detection Agent</div>
                     <div class="agent-role">Thermal & Bio-Acoustic Fusion</div>
@@ -755,7 +751,7 @@
             <div class="agent-card status-waiting">
               <div class="agent-card-header">
                 <div class="agent-id">
-                  <span class="agent-badge-icon">🚑</span>
+                  <span class="agent-badge-icon symbol-cross" aria-hidden="true"></span>
                   <div>
                     <div class="agent-title">Resource Agent</div>
                     <div class="agent-role">Rescue Allocation & Path Planning</div>
@@ -823,7 +819,7 @@
             
             <!-- Language Switcher for Reports -->
             <div class="lang-toggle-bar">
-              <span class="lang-label">🌐 Language:</span>
+              <span class="lang-label"><span class="symbol-globe" aria-hidden="true"></span> Language:</span>
               <button id="btn-lang-en" class="lang-chip active">English</button>
               <button id="btn-lang-ta" class="lang-chip">தமிழ்</button>
             </div>
@@ -833,7 +829,7 @@
           <div class="tactical-card replay-card">
             <div class="card-header-bar">
               <div class="card-title-with-icon">
-                <span class="card-icon">⏮️</span>
+                <span class="card-icon symbol-replay" aria-hidden="true"></span>
                 <span class="card-eyebrow" id="rep-replay-header">MISSION REPLAY ENGINE</span>
               </div>
               <span class="badge badge-purple" id="rep-replay-status-badge">REPLAY READY</span>
@@ -1031,7 +1027,7 @@
         <span class="dexter-ring-pulse"></span>
         <span class="dexter-ring-glow"></span>
         <div class="dexter-inner-core">
-          <span class="dexter-icon">🤖</span>
+          <span class="dexter-icon symbol-robot" aria-hidden="true"></span>
           <span class="dexter-tag">DEXTER</span>
         </div>
       </button>
@@ -1040,12 +1036,12 @@
     <!-- BOTTOM NAVIGATION BAR (5 Primary Tabs) -->
     <nav class="bottom-nav-bar">
       <button class="nav-tab active" data-tab="home" id="tab-home">
-        <span class="nav-icon">🏠</span>
+        <span class="nav-icon symbol-home" aria-hidden="true"></span>
         <span class="nav-label">Home</span>
       </button>
 
       <button class="nav-tab" data-tab="mission" id="tab-mission">
-        <span class="nav-icon">🗺️</span>
+        <span class="nav-icon symbol-map" aria-hidden="true"></span>
         <span class="nav-label">Mission</span>
       </button>
 
@@ -1053,17 +1049,17 @@
       <div class="nav-center-spacer"></div>
 
       <button class="nav-tab" data-tab="telemetry" id="tab-telemetry">
-        <span class="nav-icon">📡</span>
+        <span class="nav-icon symbol-signal" aria-hidden="true"></span>
         <span class="nav-label">Telemetry</span>
       </button>
 
       <button class="nav-tab" data-tab="agents" id="tab-agents">
-        <span class="nav-icon">🤖</span>
+        <span class="nav-icon symbol-robot" aria-hidden="true"></span>
         <span class="nav-label">Agents</span>
       </button>
 
       <button class="nav-tab" data-tab="reports" id="tab-reports">
-        <span class="nav-icon">📋</span>
+        <span class="nav-icon symbol-report" aria-hidden="true"></span>
         <span class="nav-label">Reports</span>
       </button>
     </nav>
@@ -1074,7 +1070,7 @@
       <div class="modal-sheet-dialog">
         <div class="dialog-header">
           <div class="dialog-title-group">
-            <span class="dialog-icon">🤖</span>
+            <span class="dialog-icon symbol-robot" aria-hidden="true"></span>
             <div>
               <div class="dialog-title">DEXTER MISSION ASSISTANT</div>
               <div class="dialog-sub" id="dexter-mode-sub">Tactical Voice & Natural Command Engine</div>
@@ -1184,7 +1180,7 @@
           <!-- Evidence Drawer Accordion -->
           <div class="evidence-accordion">
             <button id="btn-toggle-evidence" class="evidence-toggle-btn">
-              <span>🔍 Review Sensor Evidence & Thermal Scan</span>
+              <span><span class="symbol-search" aria-hidden="true"></span> Review Sensor Evidence & Thermal Scan</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div id="evidence-drawer" class="evidence-drawer hidden">
@@ -1226,7 +1222,7 @@
       <div class="modal-sheet-dialog install-dialog">
         <div class="dialog-header">
           <div class="dialog-title-group">
-            <span class="dialog-icon">📱</span>
+            <span class="dialog-icon symbol-device" aria-hidden="true"></span>
             <div>
               <div class="dialog-title">INSTALL MOBILE APP</div>
               <div class="dialog-sub">Inzora Terra Tactical Command PWA</div>
@@ -1245,14 +1241,14 @@
               </div>
             </div>
             <div class="feature-item">
-              <span class="fi-icon">📶</span>
+              <span class="fi-icon symbol-signal" aria-hidden="true"></span>
               <div class="fi-content">
                 <span class="fi-title">Offline Mission Cache</span>
                 <span class="fi-desc">Instant offline sensor fusion caching & rapid boot</span>
               </div>
             </div>
             <div class="feature-item">
-              <span class="fi-icon">🚨</span>
+              <span class="fi-icon symbol-alert" aria-hidden="true"></span>
               <div class="fi-content">
                 <span class="fi-title">Real-Time Alerts</span>
                 <span class="fi-desc">Direct critical HITL alerts & field notifications</span>
